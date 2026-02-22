@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Thanku Practices">
+<title>Thanku Practices</title>
+<meta name="theme-color" content="#2d5a3d">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,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">
+<link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
+<link rel="manifest" id="pwa-manifest">
+<script>
+const manifest = {
+  name: "Thanku Practices",
+  short_name: "Thanku",
+  description: "Personal integral practice tracker",
+  start_url: ".",
+  display: "standalone",
+  background_color: "#f5f0e8",
+  theme_color: "#2d5a3d",
+  orientation: "portrait",
+  icons: [
+    { src: "icon-192.png", sizes: "192x192", type: "image/png", purpose: "any maskable" },
+    { src: "icon-512.png", sizes: "512x512", type: "image/png", purpose: "any maskable" }
+  ]
+};
+const blob = new Blob([JSON.stringify(manifest)], {type:'application/manifest+json'});
+const manifestUrl = URL.createObjectURL(blob);
+document.getElementById('pwa-manifest').href = manifestUrl;
+</script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f0e8; --bg2: #ede7d9; --card: #ffffff; --border: #d4c9b4;
+    --text: #1a1510; --text2: #6b5f4e; --text3: #9c8f7a;
+    --accent: #2d5a3d; --accent2: #c17f24;
+    --done-bg: rgba(45,90,61,0.08); --planned-bg: rgba(193,127,36,0.08);
+    --shadow-card: 0 2px 12px rgba(0,0,0,0.07); --radius: 14px;
+  }
+  [data-theme="dark"] {
+    --bg: #111510; --bg2: #1a1f18; --card: #1f261d; --border: #2e3a2b;
+    --text: #e8e0d0; --text2: #a09880; --text3: #6b6358;
+    --accent: #5a9e6f; --accent2: #d4933a;
+    --done-bg: rgba(90,158,111,0.1); --planned-bg: rgba(212,147,58,0.1);
+    --shadow-card: 0 2px 16px rgba(0,0,0,0.3);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; transition: background 0.3s, color 0.3s; padding-bottom: 80px; }
+
+  .header { background: var(--card); border-bottom: 1px solid var(--border); padding: 16px 20px 12px; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow-card); }
+  .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+  .logo { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--text); letter-spacing: -0.5px; }
+  .logo span { color: var(--accent2); }
+  .header-actions { display: flex; gap: 8px; align-items: center; }
+  .icon-btn { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 7px 10px; cursor: pointer; font-size: 16px; color: var(--text2); transition: all 0.15s; }
+  .icon-btn:active { transform: scale(0.95); }
+  .week-nav { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+  .week-nav button { background: none; border: 1px solid var(--border); border-radius: 8px; padding: 5px 10px; color: var(--text2); cursor: pointer; font-size: 18px; }
+  .week-nav button:active { background: var(--bg2); }
+  .week-label { flex: 1; text-align: center; font-size: 13px; font-weight: 500; color: var(--text2); }
+  .today-btn { background: var(--accent); color: white; border: none; border-radius: 8px; padding: 5px 12px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+
+  .view-toggle { display: flex; gap: 6px; padding: 12px 20px 0; }
+  .view-btn { flex: 1; padding: 8px; border: 1px solid var(--border); border-radius: 10px; background: var(--card); color: var(--text2); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s; }
+  .view-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+
+  .content { padding: 16px 20px; }
+
+  .week-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 16px; }
+  .day-pill { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 8px 4px; text-align: center; cursor: pointer; transition: all 0.15s; }
+  .day-pill.today { border-color: var(--accent); border-width: 2px; }
+  .day-pill.selected { background: var(--accent); border-color: var(--accent); }
+  .day-pill.selected .day-letter, .day-pill.selected .day-num { color: white; }
+  .day-letter { font-size: 10px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; }
+  .day-num { font-size: 16px; font-weight: 600; color: var(--text); margin-top: 2px; }
+  .day-dots { display: flex; justify-content: center; gap: 2px; margin-top: 4px; min-height: 6px; }
+  .day-dot { width: 5px; height: 5px; border-radius: 50%; }
+
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; margin-top: 16px; }
+  .section-title { font-family: 'DM Serif Display', serif; font-size: 18px; display: flex; align-items: center; gap: 8px; }
+  .quadrant-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .add-btn { background: none; border: 1px dashed var(--border); border-radius: 8px; padding: 4px 10px; color: var(--text3); font-size: 12px; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+  .add-btn:active { background: var(--bg2); }
+
+  .practices-list { display: flex; flex-direction: column; gap: 8px; }
+  .practice-item { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; user-select: none; }
+  .practice-item.planned { background: var(--planned-bg); border-color: rgba(193,127,36,0.25); }
+  .practice-item.done { background: var(--done-bg); border-color: rgba(45,90,61,0.2); }
+  .practice-main { display: flex; align-items: center; gap: 12px; padding: 12px 14px; cursor: pointer; }
+  .check-circle { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 13px; transition: all 0.2s; }
+  .practice-item.planned .check-circle { border-color: var(--accent2); }
+  .practice-item.done .check-circle { background: var(--accent); border-color: var(--accent); color: white; }
+  .practice-info { flex: 1; min-width: 0; }
+  .practice-name { font-size: 14px; font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .practice-item.done .practice-name { color: var(--text2); }
+  .practice-meta { font-size: 11px; color: var(--text3); margin-top: 3px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .time-badge { background: var(--bg2); border: 1px solid var(--border); border-radius: 20px; padding: 2px 8px; font-size: 11px; font-weight: 600; color: var(--accent2); }
+  .practice-status { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 20px; white-space: nowrap; }
+  .practice-item.planned .practice-status { background: rgba(193,127,36,0.15); color: var(--accent2); }
+  .practice-item.done .practice-status { background: rgba(45,90,61,0.15); color: var(--accent); }
+  .time-icon-btn { font-size: 18px; cursor: pointer; padding: 2px 4px; border-radius: 6px; transition: background 0.15s; flex-shrink: 0; }
+  .time-icon-btn:active { background: var(--bg2); }
+
+  .progress-bar { height: 4px; background: var(--border); border-radius: 2px; margin-top: 8px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 2px; transition: width 0.4s ease; }
+
+  .summary-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 4px; box-shadow: var(--shadow-card); }
+  .summary-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text3); margin-bottom: 10px; }
+  .summary-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .stat-box { text-align: center; padding: 10px 6px; border-radius: 10px; border: 1px solid var(--border); }
+  .stat-num { font-family: 'DM Serif Display', serif; font-size: 22px; line-height: 1; }
+  .stat-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text3); margin-top: 3px; }
+  .stat-mins { font-size: 10px; color: var(--text3); margin-top: 2px; }
+
+  .notes-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; margin-top: 16px; }
+  .notes-area { width: 100%; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 11px 14px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; min-height: 80px; resize: none; outline: none; }
+  .notes-area:focus { border-color: var(--accent); }
+  .notes-save { margin-top: 8px; background: var(--accent); color: white; border: none; border-radius: 8px; padding: 8px 16px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; float: right; }
+
+  /* MODALS */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: flex-end; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: var(--card); border-radius: 20px 20px 0 0; padding: 20px; width: 100%; max-height: 90vh; overflow-y: auto; animation: slideUp 0.3s ease; }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  .modal-handle { width: 36px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 16px; }
+  .modal-title { font-family: 'DM Serif Display', serif; font-size: 20px; margin-bottom: 16px; }
+  .form-group { margin-bottom: 14px; }
+  .form-label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; display: block; }
+  .form-input { width: 100%; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 11px 14px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; outline: none; }
+  .form-input:focus { border-color: var(--accent); }
+  .quadrant-select { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .q-option { padding: 10px; border: 2px solid var(--border); border-radius: 10px; text-align: center; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.15s; }
+  .days-select { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+  .day-option { padding: 8px 2px; border: 1px solid var(--border); border-radius: 8px; text-align: center; cursor: pointer; font-size: 11px; font-weight: 600; color: var(--text2); }
+  .day-option.selected { background: var(--accent); border-color: var(--accent); color: white; }
+
+  .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; }
+  .toggle-label { font-size: 14px; font-weight: 500; color: var(--text); }
+  .toggle-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
+  .toggle-switch { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
+  .toggle-switch input { opacity: 0; width: 0; height: 0; }
+  .toggle-slider { position: absolute; inset: 0; background: var(--border); border-radius: 24px; cursor: pointer; transition: 0.3s; }
+  .toggle-slider:before { content: ''; position: absolute; width: 18px; height: 18px; left: 3px; top: 3px; background: white; border-radius: 50%; transition: 0.3s; }
+  input:checked + .toggle-slider { background: var(--accent); }
+  input:checked + .toggle-slider:before { transform: translateX(20px); }
+
+  .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+  .btn-primary { flex: 1; background: var(--accent); color: white; border: none; border-radius: 12px; padding: 14px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; }
+  .btn-primary:active { opacity: 0.85; }
+  .btn-secondary { background: var(--bg2); color: var(--text2); border: 1px solid var(--border); border-radius: 12px; padding: 14px 20px; font-family: 'DM Sans', sans-serif; font-size: 15px; cursor: pointer; }
+
+  /* TIME MODAL SPECIFIC */
+  .timer-big { font-family: 'DM Serif Display', serif; font-size: 52px; text-align: center; color: var(--text); line-height: 1; transition: color 0.3s; }
+  .timer-big.running { color: var(--accent); }
+  .timer-controls { display: flex; gap: 10px; justify-content: center; margin: 16px 0 24px; }
+  .t-btn { border-radius: 10px; padding: 10px 20px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: var(--bg2); color: var(--text2); }
+  .t-btn.green { background: var(--accent); border-color: var(--accent); color: white; }
+  .t-btn.red { background: #e8523a; border-color: #e8523a; color: white; }
+  .manual-row { display: flex; align-items: center; background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; max-width: 280px; margin: 0 auto; }
+  .manual-row label { padding: 12px 14px; font-size: 13px; color: var(--text3); font-weight: 600; white-space: nowrap; }
+  .manual-row input { flex: 1; background: none; border: none; padding: 12px 8px; font-family: 'DM Sans', sans-serif; font-size: 20px; font-weight: 700; color: var(--text); outline: none; text-align: center; width: 70px; }
+  .manual-row span { padding: 12px 14px 12px 4px; font-size: 13px; color: var(--text3); }
+
+  /* HISTORY */
+  .history-week { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 12px; overflow: hidden; }
+  .history-week-header { padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; border-bottom: 1px solid transparent; }
+  .history-week-header.hopen { border-bottom-color: var(--border); }
+  .history-week-title { font-weight: 600; font-size: 14px; }
+  .history-completion { font-size: 12px; font-weight: 600; color: var(--accent); }
+  .history-body { padding: 12px 16px; display: none; }
+  .history-body.open { display: block; }
+  .history-quad { margin-bottom: 10px; }
+  .history-quad-title { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .history-item { font-size: 13px; padding: 3px 0; display: flex; justify-content: space-between; align-items: center; }
+  .history-item.done-item { color: var(--accent); }
+  .history-item.done-item .hi-name::before { content: '✓ '; }
+  .history-item.planned-item { color: var(--text2); }
+  .history-item.planned-item .hi-name::before { content: '○ '; color: var(--text3); }
+  .hi-mins { font-size: 11px; font-weight: 600; color: var(--text3); }
+
+  .empty-state { text-align: center; padding: 24px 16px; color: var(--text3); font-size: 13px; }
+  .empty-state .big { font-size: 28px; margin-bottom: 8px; }
+  .hint-text { font-size: 11px; color: var(--text3); text-align: center; padding: 8px 0 0; }
+
+  .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-top: 1px solid var(--border); display: flex; padding: 8px 20px 20px; gap: 8px; z-index: 100; }
+  .nav-btn { flex: 1; background: none; border: none; padding: 8px 4px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px; color: var(--text3); font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 500; }
+  .nav-btn.active { color: var(--accent); }
+  .nav-btn .nav-icon { font-size: 20px; }
+
+
+  /* MONTH VIEW */
+  .month-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+  .month-title { font-family:'DM Serif Display',serif; font-size:22px; }
+  .month-nav-btn { background:none; border:1px solid var(--border); border-radius:8px; padding:5px 12px; font-size:18px; color:var(--text2); cursor:pointer; }
+  .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
+  .cal-day-label { text-align:center; font-size:10px; font-weight:700; color:var(--text3); text-transform:uppercase; padding:4px 0 8px; letter-spacing:0.5px; }
+  .cal-cell { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:6px 4px 8px; min-height:62px; cursor:pointer; transition:all 0.15s; }
+  .cal-cell.today { border-color:var(--accent); border-width:2px; }
+  .cal-cell.selected { background:var(--accent); border-color:var(--accent); }
+  .cal-cell.other-month { opacity:0.35; }
+  .cal-cell.selected .cal-date { color:white; }
+  .cal-date { font-size:13px; font-weight:600; color:var(--text); text-align:center; }
+  .cal-dots { display:flex; flex-wrap:wrap; justify-content:center; gap:2px; margin-top:4px; }
+  .cal-dot { width:5px; height:5px; border-radius:50%; }
+  .month-legend { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; padding:12px 14px; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); }
+  .legend-item { display:flex; align-items:center; gap:5px; font-size:11px; color:var(--text2); }
+  .legend-dot { width:8px; height:8px; border-radius:50%; }
+
+
+  /* TASKS */
+  .tasks-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+  .task-item { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:12px 14px; display:flex; align-items:flex-start; gap:10px; margin-bottom:8px; cursor:pointer; user-select:none; }
+  .task-item.done-task { opacity:0.55; }
+  .task-check { width:22px; height:22px; border-radius:6px; border:2px solid var(--border); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:12px; margin-top:1px; transition:all 0.2s; }
+  .task-item.done-task .task-check { background:var(--accent); border-color:var(--accent); color:white; }
+  .task-body { flex:1; min-width:0; }
+  .task-name { font-size:14px; font-weight:500; color:var(--text); }
+  .task-item.done-task .task-name { text-decoration:line-through; color:var(--text3); }
+  .task-meta { display:flex; align-items:center; gap:8px; margin-top:4px; flex-wrap:wrap; }
+  .priority-badge { font-size:10px; font-weight:700; padding:2px 8px; border-radius:20px; text-transform:uppercase; letter-spacing:0.5px; }
+  .p-high { background:rgba(232,82,58,0.15); color:#e8523a; }
+  .p-medium { background:rgba(193,127,36,0.15); color:var(--accent2); }
+  .p-low { background:rgba(45,90,61,0.15); color:var(--accent); }
+  .task-due { font-size:11px; color:var(--text3); }
+  .task-due.overdue { color:#e8523a; font-weight:600; }
+  .task-edit-btn { font-size:16px; cursor:pointer; padding:2px 4px; border-radius:6px; color:var(--text3); flex-shrink:0; }
+
+  /* PROJECTS */
+  .project-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); margin-bottom:14px; overflow:hidden; }
+  .project-header { padding:14px 16px; display:flex; align-items:center; justify-content:space-between; cursor:pointer; }
+  .project-title { font-family:'DM Serif Display',serif; font-size:17px; }
+  .project-meta { font-size:12px; color:var(--text3); margin-top:2px; }
+  .project-body { padding:0 16px 14px; display:none; }
+  .project-body.open { display:block; }
+  .project-item { display:flex; align-items:flex-start; gap:10px; padding:9px 0; border-bottom:1px solid var(--border); }
+  .project-item:last-child { border-bottom:none; }
+  .proj-check { width:20px; height:20px; border-radius:5px; border:2px solid var(--border); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:11px; margin-top:1px; cursor:pointer; transition:all 0.2s; }
+  .proj-check.done { background:var(--accent); border-color:var(--accent); color:white; }
+  .proj-item-body { flex:1; }
+  .proj-item-name { font-size:13px; font-weight:500; color:var(--text); }
+  .proj-item-done .proj-item-name { text-decoration:line-through; color:var(--text3); }
+  .proj-item-due { font-size:11px; color:var(--text3); margin-top:2px; }
+  .proj-item-due.overdue { color:#e8523a; }
+  .proj-actions { display:flex; gap:8px; margin-top:12px; }
+  .proj-add-item { background:none; border:1px dashed var(--border); border-radius:8px; padding:7px 14px; font-family:'DM Sans',sans-serif; font-size:13px; color:var(--text3); cursor:pointer; }
+  .proj-edit-btn { font-size:16px; cursor:pointer; padding:2px 6px; color:var(--text3); }
+  .priority-select { display:flex; gap:6px; }
+  .pri-opt { flex:1; padding:8px 4px; border:2px solid var(--border); border-radius:8px; text-align:center; cursor:pointer; font-size:12px; font-weight:700; }
+  .pri-opt.selected-high { background:#e8523a; border-color:#e8523a; color:white; }
+  .pri-opt.selected-medium { background:var(--accent2); border-color:var(--accent2); color:white; }
+  .pri-opt.selected-low { background:var(--accent); border-color:var(--accent); color:white; }
+  .page { display: none; }
+  .page.active { display: block; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="logo" style="display:flex;align-items:center;gap:8px"><img src="data:image/png;base64,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" style="width:32px;height:32px;border-radius:6px;object-fit:contain"> <span style="font-family:'DM Serif Display',serif;font-size:20px;color:var(--text)">Thanku <span style="color:var(--accent2)">Practices</span></span></div>
+    <div class="header-actions">
+      <button class="icon-btn" id="themeToggle">🌙</button>
+      <button class="icon-btn" id="backupBtn" title="Backup &amp; Restore">💾</button>
+      <button class="icon-btn" id="addPracticeBtn">＋</button>
+    </div>
+  </div>
+  <div class="week-nav" id="weekNav">
+    <button id="prevWeek">‹</button>
+    <div class="week-label" id="weekLabel"></div>
+    <button id="nextWeek">›</button>
+    <button class="today-btn" id="todayBtn">Today</button>
+  </div>
+</div>
+
+<div class="view-toggle" id="viewToggle">
+  <button class="view-btn active" data-view="day" onclick="setView('day')">Day View</button>
+  <button class="view-btn" data-view="week" onclick="setView('week')">Week View</button>
+</div>
+
+<div class="content">
+  <div class="page active" id="pagePractices">
+    <div class="week-grid" id="weekGrid"></div>
+    <div id="dayContent"></div>
+    <div class="notes-card">
+      <div style="font-family:'DM Serif Display',serif;font-size:15px;display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <span>💬</span> What do I want to say today?
+      </div>
+      <textarea class="notes-area" id="notesArea" placeholder="Whatever's on your mind…"></textarea>
+      <button class="notes-save" onclick="saveNote()">Save</button>
+      <div style="clear:both"></div>
+    </div>
+    <div class="hint-text">Tap to mark complete · Long press to remove from day</div>
+  </div>
+
+  <div class="page" id="pageWeek">
+    <div class="summary-card">
+      <div class="summary-title">This Week's Progress</div>
+      <div class="summary-stats" id="weekStats"></div>
+    </div>
+    <div id="weekViewContent"></div>
+  </div>
+
+  <div class="page" id="pageHistory">
+    <div id="historyContent"></div>
+  </div>
+  <div class="page" id="pageMonth">
+    <div id="monthContent"></div>
+  </div>
+  <div class="page" id="pageTasks">
+    <div id="tasksContent"></div>
+  </div>
+  <div class="page" id="pageProjects">
+    <div id="projectsContent"></div>
+  </div>
+</div>
+
+<!-- ADD PRACTICE MODAL -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Add Practice</div>
+    <div class="form-group">
+      <label class="form-label">Practice Name</label>
+      <input type="text" class="form-input" id="practiceName" placeholder="e.g. Holosync, Gym, Journaling">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Default Note <span style="font-weight:400;color:var(--text3)">(optional)</span></label>
+      <input type="text" class="form-input" id="practiceNote" placeholder="e.g. Level 1 — morning, legs day…">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Quadrant</label>
+      <div class="quadrant-select">
+        <div class="q-option" data-q="Body" onclick="selectQuadrant('Body')" style="border-color:#e8523a">🏃 Body</div>
+        <div class="q-option" data-q="Mind" onclick="selectQuadrant('Mind')" style="border-color:#2d6fa3">📚 Mind</div>
+        <div class="q-option" data-q="Spirit" onclick="selectQuadrant('Spirit')" style="border-color:#7b4f9e">🙏 Spirit</div>
+        <div class="q-option" data-q="Shadow" onclick="selectQuadrant('Shadow')" style="border-color:#3a6b4a">🪞 Shadow</div>
+        <div class="q-option" data-q="Extra" onclick="selectQuadrant('Extra')" style="border-color:#4a7a9b">💡 Extra</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Schedule For (This Week)</label>
+      <div class="days-select" id="daysSelect"></div>
+    </div>
+    <div style="border-top:1px solid var(--border);padding-top:4px;margin-top:4px">
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">⏱ Track time for this practice</div>
+          <div class="toggle-sub">Enables timer &amp; minute logging</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="trackTimeToggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="savePractice()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- TIME MODAL -->
+<div class="modal-overlay" id="timeModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="timeModalTitle">Log Time</div>
+    <div style="text-align:center;padding:8px 0 4px">
+      <div class="timer-big" id="timerDisplay">0 <span style="font-size:22px;color:var(--text3)">min 00 sec</span></div>
+      <div class="timer-controls">
+        <button class="t-btn green" id="timerStartBtn" onclick="timerStart()">▶ Start</button>
+        <button class="t-btn red" id="timerStopBtn" onclick="timerStop()" style="display:none">⏹ Stop</button>
+        <button class="t-btn" onclick="timerReset()">↺ Reset</button>
+      </div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:12px">— or enter minutes manually —</div>
+      <div class="manual-row">
+        <label>Minutes:</label>
+        <input type="number" id="manualMinutes" min="0" max="999" placeholder="0">
+        <span>min</span>
+      </div>
+    </div>
+    <div class="modal-actions" style="margin-top:24px">
+      <button class="btn-secondary" onclick="closeTimeModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveTime()">Save &amp; Complete</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD/EDIT TASK MODAL -->
+<div class="modal-overlay" id="taskModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="taskModalTitle">Add Task</div>
+    <div class="form-group">
+      <label class="form-label">Task</label>
+      <input type="text" class="form-input" id="taskName" placeholder="What needs to get done?">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Priority</label>
+      <div class="priority-select">
+        <div class="pri-opt" data-p="high" onclick="selectPriority('high')" style="color:#e8523a;border-color:#e8523a20">🔴 High</div>
+        <div class="pri-opt" data-p="medium" onclick="selectPriority('medium')" style="color:var(--accent2);border-color:var(--accent2)20">🟡 Medium</div>
+        <div class="pri-opt" data-p="low" onclick="selectPriority('low')" style="color:var(--accent);border-color:var(--accent)20">🟢 Low</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Due Date <span style="font-weight:400;color:var(--text3)">(optional)</span></label>
+      <input type="date" class="form-input" id="taskDue">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeTaskModal()">Cancel</button>
+      <button class="btn-primary" style="background:#e8523a;border-color:#e8523a;display:none" id="taskDeleteBtn" onclick="deleteTask()">Delete</button>
+      <button class="btn-primary" onclick="saveTask()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD/EDIT PROJECT MODAL -->
+<div class="modal-overlay" id="projectModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="projectModalTitle">Add Project</div>
+    <div class="form-group">
+      <label class="form-label">Project Name</label>
+      <input type="text" class="form-input" id="projectName" placeholder="e.g. Home renovation, Business plan…">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Description <span style="font-weight:400;color:var(--text3)">(optional)</span></label>
+      <input type="text" class="form-input" id="projectDesc" placeholder="Brief description…">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeProjectModal()">Cancel</button>
+      <button class="btn-primary" style="background:#e8523a;border-color:#e8523a;display:none" id="projectDeleteBtn" onclick="deleteProject()">Delete</button>
+      <button class="btn-primary" onclick="saveProject()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD/EDIT PROJECT ITEM MODAL -->
+<div class="modal-overlay" id="projItemModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="projItemModalTitle">Add Item</div>
+    <div class="form-group">
+      <label class="form-label">Item</label>
+      <input type="text" class="form-input" id="projItemName" placeholder="Action item…">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Due Date <span style="font-weight:400;color:var(--text3)">(optional)</span></label>
+      <input type="date" class="form-input" id="projItemDue">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeProjItemModal()">Cancel</button>
+      <button class="btn-primary" style="background:#e8523a;border-color:#e8523a;display:none" id="projItemDeleteBtn" onclick="deleteProjItem()">Delete</button>
+      <button class="btn-primary" onclick="saveProjItem()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT PRACTICE MODAL -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">✏️ Edit Practice</div>
+    <div class="form-group">
+      <label class="form-label">Practice Name</label>
+      <input type="text" class="form-input" id="editPracticeName" placeholder="Practice name">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Default Note <span style="font-weight:400;color:var(--text3)">(optional)</span></label>
+      <input type="text" class="form-input" id="editPracticeNote" placeholder="e.g. Level 1 — morning…">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Quadrant</label>
+      <div class="quadrant-select" id="editQuadrantSelect">
+        <div class="eq-option" data-q="Body" onclick="selectEditQuadrant('Body')" style="border-color:#e8523a">🏃 Body</div>
+        <div class="eq-option" data-q="Mind" onclick="selectEditQuadrant('Mind')" style="border-color:#2d6fa3">📚 Mind</div>
+        <div class="eq-option" data-q="Spirit" onclick="selectEditQuadrant('Spirit')" style="border-color:#7b4f9e">🙏 Spirit</div>
+        <div class="eq-option" data-q="Shadow" onclick="selectEditQuadrant('Shadow')" style="border-color:#3a6b4a">🪞 Shadow</div>
+        <div class="eq-option" data-q="Extra" onclick="selectEditQuadrant('Extra')" style="border-color:#4a7a9b">💡 Extra</div>
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--border);padding-top:4px;margin-top:4px">
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">⏱ Track time for this practice</div>
+          <div class="toggle-sub">Enables timer &amp; minute logging</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="editTrackTimeToggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeEditModal()">Cancel</button>
+      <button class="btn-primary" style="background:#e8523a;border-color:#e8523a" onclick="deletePractice()">Delete</button>
+      <button class="btn-primary" onclick="saveEdit()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- PRACTICE NOTE MODAL -->
+<div class="modal-overlay" id="noteModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="noteModalTitle">📝 Practice Note</div>
+    <p style="font-size:12px;color:var(--text3);margin-bottom:12px">This note is just for today. Your default note is shown below as a starting point.</p>
+    <div class="form-group">
+      <label class="form-label">Today's Note</label>
+      <textarea class="form-input" id="practiceNoteArea" rows="3" placeholder="Add a note for today…" style="min-height:80px;resize:none"></textarea>
+    </div>
+    <div id="defaultNoteHint" style="font-size:12px;color:var(--text3);margin-top:-6px;margin-bottom:12px"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeNoteModal()">Cancel</button>
+      <button class="btn-primary" onclick="savePracticeNote()">Save Note</button>
+    </div>
+  </div>
+</div>
+
+<!-- BACKUP MODAL -->
+<div class="modal-overlay" id="backupModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">💾 Backup &amp; Restore</div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:20px;line-height:1.6">
+      Export saves all your practices, history, and notes to a file you can store anywhere.
+      Import restores from a previously exported file.
+    </p>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <button class="btn-primary" onclick="exportData()" style="display:flex;align-items:center;justify-content:center;gap:8px">
+        <span style="font-size:18px">📤</span> Export / Download Backup
+      </button>
+      <div style="position:relative">
+        <button class="btn-primary" style="background:var(--accent2);border-color:var(--accent2);width:100%;display:flex;align-items:center;justify-content:center;gap:8px" onclick="document.getElementById('importFile').click()">
+          <span style="font-size:18px">📥</span> Import / Restore Backup
+        </button>
+        <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+      </div>
+    </div>
+    <div id="backupMsg" style="margin-top:14px;font-size:13px;text-align:center;color:var(--accent);min-height:20px"></div>
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
+      <div style="font-size:11px;color:var(--text3);line-height:1.6">
+        💡 <strong>Tip:</strong> Save your backup file to your Notes app, email it to yourself, or store it in cloud storage. Re-import any time to restore — great before clearing your browser or switching phones.
+      </div>
+    </div>
+    <div class="modal-actions" style="margin-top:16px">
+      <button class="btn-secondary" style="flex:1" onclick="closeBackupModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-nav">
+  <button class="nav-btn active" id="navPractices" onclick="setPage('practices')">
+    <span class="nav-icon">📋</span>Practices
+  </button>
+  <button class="nav-btn" id="navWeek" onclick="setPage('week')">
+    <span class="nav-icon">📊</span>Week
+  </button>
+  <button class="nav-btn" id="navMonth" onclick="setPage('month')">
+    <span class="nav-icon">🗓</span>Month
+  </button>
+  <button class="nav-btn" id="navTasks" onclick="setPage('tasks')">
+    <span class="nav-icon">✅</span>Tasks
+  </button>
+  <button class="nav-btn" id="navProjects" onclick="setPage('projects')">
+    <span class="nav-icon">🗂</span>Projects
+  </button>
+</div>
+
+<script>
+const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const QUADRANTS = ['Body','Mind','Spirit','Shadow','Extra'];
+const Q_COLORS = {Body:'#e8523a',Mind:'#2d6fa3',Spirit:'#7b4f9e',Shadow:'#3a6b4a',Extra:'#4a7a9b'};
+const Q_ICONS  = {Body:'🏃',Mind:'📚',Spirit:'🙏',Shadow:'🪞',Extra:'💡'};
+
+let state = {
+  theme:'light', currentPage:'practices', weekOffset:0, selectedDay:null,
+  practices:[], notes:{}, tasks:[], projects:[], monthOffset:0
+};
+
+// Timer
+let timerInterval=null, timerSec=0, timerRunning=false;
+let timePid=null, timePdate=null;
+
+function load(){
+  const s=localStorage.getItem('thanku_v2');
+  if(s){try{Object.assign(state,JSON.parse(s));}catch(e){}}
+  if(!state.selectedDay) state.selectedDay=toISO(new Date());
+}
+function save(){ localStorage.setItem('thanku_v2',JSON.stringify(state)); }
+
+function toISO(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function fromISO(s){ const [y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d); }
+function getWeekDays(off=0){
+  const t=new Date(), s=new Date(t);
+  s.setDate(t.getDate()-t.getDay()+(off*7)); s.setHours(0,0,0,0);
+  return Array.from({length:7},(_,i)=>{ const d=new Date(s); d.setDate(s.getDate()+i); return d; });
+}
+function fmtWeek(days){
+  const mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return mo[days[0].getMonth()]+' '+days[0].getDate()+'–'+mo[days[6].getMonth()]+' '+days[6].getDate()+', '+days[6].getFullYear();
+}
+function todayISO(){ return toISO(new Date()); }
+function fmtMins(m){ if(!m)return ''; return m+'m'; }
+
+function render(){
+  renderHeader();
+  if(state.currentPage==='practices') renderDayView();
+  else if(state.currentPage==='week') renderWeekView();
+  else if(state.currentPage==='history') renderHistory();
+  else if(state.currentPage==='month') renderMonth();
+  else if(state.currentPage==='tasks') renderTasks();
+  else if(state.currentPage==='projects') renderProjects();
+}
+
+function renderHeader(){
+  const days=getWeekDays(state.weekOffset);
+  document.getElementById('weekLabel').textContent=fmtWeek(days);
+  document.getElementById('themeToggle').textContent=state.theme==='dark'?'☀️':'🌙';
+  const pracOnly = ['practices','week'].includes(state.currentPage);
+  const noNav = !['practices','week'].includes(state.currentPage);
+  document.getElementById('weekNav').style.display=pracOnly?'flex':'none';
+  document.getElementById('viewToggle').style.display=pracOnly?'flex':'none';
+  document.getElementById('addPracticeBtn').style.display=state.currentPage==='practices'?'flex':'none';
+}
+
+function renderDayView(){
+  const days=getWeekDays(state.weekOffset);
+  const today=todayISO(), sel=state.selectedDay||today;
+
+  document.getElementById('weekGrid').innerHTML=days.map(d=>{
+    const iso=toISO(d);
+    const dots=QUADRANTS.map(q=>state.practices.some(p=>p.scheduledDates.includes(iso)&&p.quadrant===q)
+      ?`<div class="day-dot" style="background:${Q_COLORS[q]}"></div>`:'').join('');
+    return `<div class="day-pill ${iso===today?'today':''} ${iso===sel?'selected':''}" onclick="selectDay('${iso}')">
+      <div class="day-letter">${DAYS[d.getDay()]}</div>
+      <div class="day-num">${d.getDate()}</div>
+      <div class="day-dots">${dots}</div>
+    </div>`;
+  }).join('');
+
+  let html='';
+  QUADRANTS.forEach(q=>{
+    const ps=state.practices.filter(p=>p.scheduledDates.includes(sel)&&p.quadrant===q);
+    if(!ps.length)return;
+    const doneCount=ps.filter(p=>p.completedDates.includes(sel)).length;
+    const pct=Math.round(doneCount/ps.length*100);
+    html+=`<div class="section-header">
+      <div class="section-title"><span class="quadrant-dot" style="background:${Q_COLORS[q]}"></span>${Q_ICONS[q]} ${q}</div>
+      <button class="add-btn" onclick="openAddModal('${q}')">+ Add</button>
+    </div><div class="practices-list">`;
+    ps.forEach(p=>{
+      const isDone=p.completedDates.includes(sel);
+      const mins=(p.minutes&&p.minutes[sel])||0;
+      const timeMeta=p.trackTime?(mins?`<span class="time-badge">⏱ ${fmtMins(mins)}</span>`:`<span style="font-size:11px;color:var(--text3)">⏱ not logged</span>`):'';
+      const dailyNote=(p.dailyNotes&&p.dailyNotes[sel])||'';
+      const displayNote=dailyNote||(p.defaultNote||'');
+      html+=`<div class="practice-item ${isDone?'done':'planned'}" data-id="${p.id}" data-date="${sel}">
+        <div class="practice-main" onclick="handleTap('${p.id}','${sel}',${!!p.trackTime},${isDone})">
+          <div class="check-circle">${isDone?'✓':''}</div>
+          <div class="practice-info">
+            <div class="practice-name">${p.name}</div>
+            ${displayNote?`<div style="font-size:12px;color:var(--text3);margin-top:2px;font-style:italic">${displayNote}</div>`:''}
+            <div class="practice-meta">${q}${timeMeta?' &nbsp;'+timeMeta:''}</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <span class="time-icon-btn" onclick="event.stopPropagation();openEditModal('${p.id}')" title="Edit practice">✏️</span>
+            <span class="time-icon-btn" onclick="event.stopPropagation();openNoteModal('${p.id}','${sel}')" title="Edit note">📝</span>
+            ${p.trackTime?`<span class="time-icon-btn" onclick="event.stopPropagation();openTimeModal('${p.id}','${sel}')" title="Log time">⏱</span>`:''}
+            <div class="practice-status">${isDone?'Done ✓':'Planned'}</div>
+          </div>
+        </div>
+      </div>`;
+    });
+    html+=`</div><div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${Q_COLORS[q]}"></div></div>`;
+  });
+
+  if(!html) html=`<div class="empty-state"><div class="big">📝</div>Nothing scheduled yet<br><br>
+    <button class="btn-primary" style="max-width:200px;margin:0 auto;display:block" onclick="openAddModal()">Add a Practice</button></div>`;
+
+  document.getElementById('dayContent').innerHTML=html;
+
+  // Long press
+  document.querySelectorAll('.practice-item').forEach(el=>{
+    let t;
+    el.addEventListener('touchstart',()=>{t=setTimeout(()=>{if(confirm('Remove from this day?'))removePracticeFromDay(el.dataset.id,el.dataset.date);},650);});
+    el.addEventListener('touchend',()=>clearTimeout(t));
+    el.addEventListener('touchmove',()=>clearTimeout(t));
+    el.addEventListener('contextmenu',e=>{e.preventDefault();if(confirm('Remove from this day?'))removePracticeFromDay(el.dataset.id,el.dataset.date);});
+  });
+
+  document.getElementById('notesArea').value=state.notes[sel]||'';
+}
+
+function renderWeekView(){
+  const days=getWeekDays(state.weekOffset), isos=days.map(toISO);
+  document.getElementById('weekStats').innerHTML=QUADRANTS.map(q=>{
+    const qp=state.practices.filter(p=>p.quadrant===q);
+    const total=qp.reduce((a,p)=>a+isos.filter(d=>p.scheduledDates.includes(d)).length,0);
+    const done=qp.reduce((a,p)=>a+isos.filter(d=>p.completedDates.includes(d)).length,0);
+    const mins=qp.reduce((a,p)=>a+isos.reduce((b,d)=>b+((p.minutes&&p.minutes[d])||0),0),0);
+    return `<div class="stat-box" style="border-color:${Q_COLORS[q]}30">
+      <div class="stat-num" style="color:${Q_COLORS[q]}">${done}<span style="font-size:12px;color:var(--text3)">/${total}</span></div>
+      <div class="stat-label">${Q_ICONS[q]} ${q}</div>
+      ${mins?`<div class="stat-mins">${fmtMins(mins)}</div>`:''}
+    </div>`;
+  }).join('');
+
+  let html='';
+  QUADRANTS.forEach(q=>{
+    const rel=state.practices.filter(p=>p.quadrant===q&&isos.some(d=>p.scheduledDates.includes(d)));
+    if(!rel.length)return;
+    html+=`<div class="section-header"><div class="section-title"><span class="quadrant-dot" style="background:${Q_COLORS[q]}"></span>${Q_ICONS[q]} ${q}</div></div>`;
+    rel.forEach(p=>{
+      html+=`<div class="summary-card" style="margin-bottom:8px;padding:12px 14px">
+        <div style="font-weight:600;font-size:14px;margin-bottom:8px">${p.name}${p.trackTime?' ⏱':''}</div>
+        <div style="display:flex;gap:5px">`;
+      days.forEach(d=>{
+        const iso=toISO(d), sched=p.scheduledDates.includes(iso), done=p.completedDates.includes(iso);
+        const m=(p.minutes&&p.minutes[iso])||0;
+        let bg='var(--bg2)', col='var(--text3)';
+        if(done){bg=Q_COLORS[q];col='white';}else if(sched){bg=Q_COLORS[q]+'30';col=Q_COLORS[q];}
+        html+=`<div style="flex:1;text-align:center;padding:6px 2px;border-radius:8px;background:${bg};color:${col};font-size:10px;font-weight:600">${DAYS[d.getDay()][0]}${m?'<br><span style="font-size:9px">'+fmtMins(m)+'</span>':''}</div>`;
+      });
+      html+=`</div></div>`;
+    });
+  });
+  if(!html) html=`<div class="empty-state"><div class="big">📊</div>No practices this week yet</div>`;
+  document.getElementById('weekViewContent').innerHTML=html;
+}
+
+function renderHistory(){
+  const allD=[...new Set(state.practices.flatMap(p=>[...p.scheduledDates,...p.completedDates]))].sort().reverse();
+  if(!allD.length){document.getElementById('historyContent').innerHTML=`<div class="empty-state"><div class="big">📅</div>No history yet — start tracking!</div>`;return;}
+  const weeks={};
+  allD.forEach(iso=>{const d=fromISO(iso),s=new Date(d);s.setDate(d.getDate()-d.getDay());const k=toISO(s);if(!weeks[k])weeks[k]=[];if(!weeks[k].includes(iso))weeks[k].push(iso);});
+  let html='';
+  Object.keys(weeks).sort().reverse().forEach((wk,wi)=>{
+    const wD=Array.from({length:7},(_,i)=>{const d=fromISO(wk);d.setDate(d.getDate()+i);return toISO(d);});
+    const aS=state.practices.reduce((a,p)=>a+wD.filter(d=>p.scheduledDates.includes(d)).length,0);
+    const aD=state.practices.reduce((a,p)=>a+wD.filter(d=>p.completedDates.includes(d)).length,0);
+    const aM=state.practices.reduce((a,p)=>a+wD.reduce((b,d)=>b+((p.minutes&&p.minutes[d])||0),0),0);
+    const pct=aS?Math.round(aD/aS*100):0;
+    const label=fmtWeek(wD.map(fromISO));
+    html+=`<div class="history-week">
+      <div class="history-week-header" onclick="toggleHistory(this)">
+        <div class="history-week-title">${label}</div>
+        <div class="history-completion">${aD}/${aS} · ${pct}%${aM?' · '+fmtMins(aM):''}</div>
+      </div>
+      <div class="history-body ${wi===0?'open':''}">`;
+    QUADRANTS.forEach(q=>{
+      const qp=state.practices.filter(p=>p.quadrant===q&&wD.some(d=>p.scheduledDates.includes(d)));
+      if(!qp.length)return;
+      html+=`<div class="history-quad"><div class="history-quad-title">${Q_ICONS[q]} ${q}</div>`;
+      qp.forEach(p=>{ wD.forEach(d=>{ if(!p.scheduledDates.includes(d))return; const done=p.completedDates.includes(d),dt=fromISO(d),m=(p.minutes&&p.minutes[d])||0;
+        html+=`<div class="history-item ${done?'done-item':'planned-item'}"><span class="hi-name">${p.name} — ${DAYS[dt.getDay()]} ${dt.getDate()}</span>${m?`<span class="hi-mins">${fmtMins(m)}</span>`:''}</div>`;
+      }); });
+      html+=`</div>`;
+    });
+    html+=`</div></div>`;
+  });
+  document.getElementById('historyContent').innerHTML=html;
+}
+
+function toggleHistory(header){
+  const body=header.nextElementSibling;
+  body.classList.toggle('open');
+  header.classList.toggle('hopen', body.classList.contains('open'));
+}
+
+// ─── INTERACTIONS ────────────────────────────────────────────────────
+function handleTap(id, date, trackTime, isDone){
+  if(!isDone && trackTime){ openTimeModal(id,date); }
+  else { togglePractice(id,date); }
+}
+
+function togglePractice(id,date){
+  const p=state.practices.find(x=>x.id===id); if(!p)return;
+  const i=p.completedDates.indexOf(date);
+  if(i===-1) p.completedDates.push(date); else p.completedDates.splice(i,1);
+  save(); renderDayView();
+}
+
+function removePracticeFromDay(id,date){
+  const p=state.practices.find(x=>x.id===id); if(!p)return;
+  p.scheduledDates=p.scheduledDates.filter(d=>d!==date);
+  p.completedDates=p.completedDates.filter(d=>d!==date);
+  if(p.minutes) delete p.minutes[date];
+  save(); render();
+}
+
+function selectDay(iso){ state.selectedDay=iso; save(); render(); }
+
+// ─── TIME MODAL ──────────────────────────────────────────────────────
+function openTimeModal(id,date){
+  timePid=id; timePdate=date;
+  const p=state.practices.find(x=>x.id===id);
+  document.getElementById('timeModalTitle').textContent=`⏱  ${p.name}`;
+  const ex=(p.minutes&&p.minutes[date])||0;
+  document.getElementById('manualMinutes').value=ex||'';
+  timerReset();
+  document.getElementById('timeModal').classList.add('open');
+}
+function closeTimeModal(){ timerStop(); timerReset(); document.getElementById('timeModal').classList.remove('open'); timePid=null; timePdate=null; }
+
+function timerStart(){
+  if(timerRunning)return; timerRunning=true;
+  document.getElementById('timerStartBtn').style.display='none';
+  document.getElementById('timerStopBtn').style.display='inline-block';
+  document.getElementById('timerDisplay').classList.add('running');
+  timerInterval=setInterval(()=>{
+    timerSec++;
+    const m=Math.floor(timerSec/60), s=timerSec%60;
+    document.getElementById('timerDisplay').innerHTML=`${m} <span style="font-size:22px;color:var(--text3)">min ${String(s).padStart(2,'0')} sec</span>`;
+    document.getElementById('manualMinutes').value=m||'';
+  },1000);
+}
+function timerStop(){
+  if(!timerRunning)return; timerRunning=false; clearInterval(timerInterval);
+  document.getElementById('timerStartBtn').style.display='inline-block';
+  document.getElementById('timerStopBtn').style.display='none';
+  document.getElementById('timerDisplay').classList.remove('running');
+  const mins=Math.ceil(timerSec/60); if(mins>0) document.getElementById('manualMinutes').value=mins;
+}
+function timerReset(){
+  timerStop(); timerSec=0;
+  document.getElementById('timerDisplay').innerHTML='0 <span style="font-size:22px;color:var(--text3)">min 00 sec</span>';
+}
+function saveTime(){
+  timerStop();
+  const p=state.practices.find(x=>x.id===timePid); if(!p){closeTimeModal();return;}
+  const mins=parseInt(document.getElementById('manualMinutes').value)||Math.ceil(timerSec/60)||0;
+  if(!p.minutes)p.minutes={};
+  p.minutes[timePdate]=mins;
+  if(!p.completedDates.includes(timePdate)) p.completedDates.push(timePdate);
+  save(); closeTimeModal(); render();
+}
+
+function saveNote(){
+  const sel=state.selectedDay||todayISO();
+  state.notes[sel]=document.getElementById('notesArea').value;
+  save();
+  const btn=document.querySelector('.notes-save');
+  btn.textContent='Saved ✓'; setTimeout(()=>btn.textContent='Save',1500);
+}
+
+// ─── ADD MODAL ───────────────────────────────────────────────────────
+let editQ=null, editDays=[];
+function openAddModal(preQ){
+  editQ=preQ||null; editDays=state.selectedDay?[state.selectedDay]:[];
+  document.getElementById('practiceName').value='';
+  document.getElementById('practiceNote').value='';
+  document.getElementById('trackTimeToggle').checked=false;
+  document.querySelectorAll('.q-option').forEach(el=>{
+    const q=el.dataset.q,s=q===editQ;
+    el.classList.toggle('selected',s); el.style.background=s?Q_COLORS[q]:''; el.style.color=s?'white':'';
+  });
+  const days=getWeekDays(state.weekOffset);
+  document.getElementById('daysSelect').innerHTML=days.map(d=>{
+    const iso=toISO(d),s=editDays.includes(iso);
+    return `<div class="day-option ${s?'selected':''}" onclick="toggleDay('${iso}',this)">${DAYS[d.getDay()][0]}<br>${d.getDate()}</div>`;
+  }).join('');
+  document.getElementById('addModal').classList.add('open');
+  setTimeout(()=>document.getElementById('practiceName').focus(),300);
+}
+function closeModal(){ document.getElementById('addModal').classList.remove('open'); }
+function selectQuadrant(q){
+  editQ=q;
+  document.querySelectorAll('.q-option').forEach(el=>{
+    const eq=el.dataset.q,s=eq===q;
+    el.classList.toggle('selected',s); el.style.background=s?Q_COLORS[eq]:''; el.style.color=s?'white':'';
+  });
+}
+function toggleDay(iso,el){
+  const i=editDays.indexOf(iso);
+  if(i===-1){editDays.push(iso);el.classList.add('selected');}else{editDays.splice(i,1);el.classList.remove('selected');}
+}
+function savePractice(){
+  const name=document.getElementById('practiceName').value.trim();
+  if(!name){alert('Please enter a practice name.');return;}
+  if(!editQ){alert('Please select a quadrant.');return;}
+  if(!editDays.length){alert('Please select at least one day.');return;}
+  const defaultNote=document.getElementById('practiceNote').value.trim();
+  state.practices.push({id:Date.now().toString(),name,defaultNote,quadrant:editQ,trackTime:document.getElementById('trackTimeToggle').checked,scheduledDates:[...editDays],completedDates:[],minutes:{},dailyNotes:{}});
+  save(); closeModal(); render();
+}
+
+// ─── NAVIGATION ──────────────────────────────────────────────────────
+function setView(v){
+  document.querySelectorAll('.view-btn').forEach(b=>b.classList.toggle('active',b.dataset.view===v));
+  setPage(v==='day'?'practices':'week');
+}
+function setPage(page){
+  state.currentPage=page;
+  ['practices','week','history','month','tasks','projects'].forEach(p=>{
+    const cap=p.charAt(0).toUpperCase()+p.slice(1);
+    const pg=document.getElementById('page'+cap);
+    const nv=document.getElementById('nav'+cap);
+    if(pg) pg.classList.toggle('active',p===page);
+    if(nv) nv.classList.toggle('active',p===page);
+  });
+  render();
+}
+function toggleTheme(){
+  state.theme=state.theme==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',state.theme);
+  save(); document.getElementById('themeToggle').textContent=state.theme==='dark'?'☀️':'🌙';
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────
+load();
+document.documentElement.setAttribute('data-theme',state.theme);
+document.getElementById('themeToggle').addEventListener('click',toggleTheme);
+document.getElementById('addPracticeBtn').addEventListener('click',()=>openAddModal());
+document.getElementById('prevWeek').addEventListener('click',()=>{state.weekOffset--;save();render();});
+document.getElementById('nextWeek').addEventListener('click',()=>{state.weekOffset++;save();render();});
+document.getElementById('todayBtn').addEventListener('click',()=>{state.weekOffset=0;state.selectedDay=todayISO();save();render();});
+
+
+
+
+// ─── MONTH VIEW ───────────────────────────────────────────────────────
+function renderMonth(){
+  const now = new Date();
+  const y = now.getFullYear(), m = now.getMonth() + state.monthOffset;
+  const date = new Date(y, m, 1);
+  const year = date.getFullYear(), month = date.getMonth();
+  const MNAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const firstDow = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  const today = todayISO();
+
+  // Build completion map
+  const compMap = {};
+  state.practices.forEach(p=>{
+    p.scheduledDates.forEach(d=>{
+      if(!compMap[d]) compMap[d]={sched:0,done:0,qs:new Set()};
+      compMap[d].sched++;
+      compMap[d].qs.add(p.quadrant);
+      if(p.completedDates.includes(d)) compMap[d].done++;
+    });
+  });
+
+
+
+  // Calendar cells
+  let cells='';
+  DAYS.forEach(d=>{ cells+=`<div class="cal-day-label">${d[0]}</div>`; });
+  for(let i=0;i<firstDow;i++) cells+=`<div></div>`;
+  for(let d=1;d<=daysInMonth;d++){
+    const iso=year+'-'+String(month+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    const isToday=iso===today, isSel=iso===state.selectedDay;
+    const cm=compMap[iso];
+    let dots='';
+    if(cm){ cm.qs.forEach(q=>{ dots+=`<div class="cal-dot" style="background:${Q_COLORS[q]};opacity:${cm.done>0?1:0.4}"></div>`; }); }
+    cells+=`<div class="cal-cell ${isToday?'today':''} ${isSel?'selected':''}" onclick="calSelectDay('${iso}')">
+      <div class="cal-date">${d}</div>
+      <div class="cal-dots">${dots}</div>
+    </div>`;
+  }
+
+  document.getElementById('monthContent').innerHTML=`
+    <div class="month-header">
+      <button class="month-nav-btn" onclick="changeMonth(-1)">‹</button>
+      <div class="month-title">${MNAMES[month]} ${year}</div>
+      <button class="month-nav-btn" onclick="changeMonth(1)">›</button>
+    </div>
+    <div class="cal-grid">${cells}</div>
+    <div class="month-legend">${QUADRANTS.map(q=>`<div class="legend-item"><div class="legend-dot" style="background:${Q_COLORS[q]}"></div>${Q_ICONS[q]} ${q}</div>`).join('')}</div>
+`;
+}
+
+function changeMonth(dir){ state.monthOffset+=dir; save(); renderMonth(); }
+function calSelectDay(iso){
+  state.selectedDay=iso;
+  // Jump to day view for that date
+  const d=fromISO(iso);
+  const today=new Date(); today.setHours(0,0,0,0);
+  const daysDiff=Math.round((d-today)/86400000);
+  state.weekOffset=Math.floor((daysDiff+today.getDay())/7);
+  save(); setPage('practices');
+}
+
+// ─── TASKS ────────────────────────────────────────────────────────────
+function renderTasks(){
+  const tasks=state.tasks||[];
+  const active=tasks.filter(t=>!t.done).sort((a,b)=>{
+    const po={high:0,medium:1,low:2};
+    return (po[a.priority]||1)-(po[b.priority]||1);
+  });
+  const done=tasks.filter(t=>t.done);
+  const today=todayISO();
+
+  function taskHTML(t){
+    const due=t.due?`<span class="task-due ${t.due<today&&!t.done?'overdue':''}">📅 ${fmtDate(t.due)}</span>`:'';
+    return `<div class="task-item ${t.done?'done-task':''}" onclick="toggleTask('${t.id}')">
+      <div class="task-check">${t.done?'✓':''}</div>
+      <div class="task-body">
+        <div class="task-name">${t.name}</div>
+        <div class="task-meta">
+          <span class="priority-badge p-${t.priority||'medium'}">${t.priority||'medium'}</span>
+          ${due}
+        </div>
+      </div>
+      <span class="task-edit-btn" onclick="event.stopPropagation();openTaskModal('${t.id}')">✏️</span>
+    </div>`;
+  }
+
+  let html=`<div class="tasks-header">
+    <div style="font-family:'DM Serif Display',serif;font-size:20px">2-Week Tasks</div>
+    <button class="add-btn" style="border-style:solid;padding:6px 14px" onclick="openTaskModal()">+ Add Task</button>
+  </div>`;
+
+  if(!active.length&&!done.length) html+=`<div class="empty-state"><div class="big">✅</div>No tasks yet — add one above</div>`;
+  else {
+    html+=active.map(taskHTML).join('');
+    if(done.length){
+      html+=`<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin:16px 0 8px">Completed</div>`;
+      html+=done.map(taskHTML).join('');
+    }
+  }
+  document.getElementById('tasksContent').innerHTML=html;
+}
+
+function toggleTask(id){
+  const t=(state.tasks||[]).find(x=>x.id===id); if(!t)return;
+  t.done=!t.done; save(); renderTasks();
+}
+function fmtDate(iso){ if(!iso)return ''; const [y,m,d]=iso.split('-'); return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][parseInt(m)-1]+' '+parseInt(d); }
+
+// Task modal
+let editTaskId=null, editTaskPriority='medium';
+function openTaskModal(id){
+  editTaskId=id||null;
+  const t=id?(state.tasks||[]).find(x=>x.id===id):null;
+  document.getElementById('taskModalTitle').textContent=t?'Edit Task':'Add Task';
+  document.getElementById('taskName').value=t?t.name:'';
+  document.getElementById('taskDue').value=t&&t.due?t.due:'';
+  document.getElementById('taskDeleteBtn').style.display=t?'block':'none';
+  editTaskPriority=t?t.priority||'medium':'medium';
+  document.querySelectorAll('.pri-opt').forEach(el=>{
+    const p=el.dataset.p, sel=p===editTaskPriority;
+    el.className='pri-opt'+(sel?' selected-'+p:'');
+    if(!sel){el.style.color='';el.style.borderColor='';}
+  });
+  document.getElementById('taskModal').classList.add('open');
+  setTimeout(()=>document.getElementById('taskName').focus(),300);
+}
+function closeTaskModal(){ document.getElementById('taskModal').classList.remove('open'); editTaskId=null; }
+function selectPriority(p){
+  editTaskPriority=p;
+  document.querySelectorAll('.pri-opt').forEach(el=>{
+    const ep=el.dataset.p, sel=ep===p;
+    el.className='pri-opt'+(sel?' selected-'+ep:'');
+  });
+}
+function saveTask(){
+  const name=document.getElementById('taskName').value.trim();
+  if(!name){alert('Please enter a task name.');return;}
+  if(!state.tasks) state.tasks=[];
+  if(editTaskId){
+    const t=state.tasks.find(x=>x.id===editTaskId);
+    t.name=name; t.priority=editTaskPriority; t.due=document.getElementById('taskDue').value||null;
+  } else {
+    state.tasks.push({id:Date.now().toString(),name,priority:editTaskPriority,due:document.getElementById('taskDue').value||null,done:false});
+  }
+  save(); closeTaskModal(); renderTasks();
+}
+function deleteTask(){
+  if(!confirm('Delete this task?'))return;
+  state.tasks=state.tasks.filter(x=>x.id!==editTaskId);
+  save(); closeTaskModal(); renderTasks();
+}
+
+// ─── PROJECTS ─────────────────────────────────────────────────────────
+function renderProjects(){
+  const projects=state.projects||[];
+  let html=`<div class="tasks-header">
+    <div style="font-family:'DM Serif Display',serif;font-size:20px">Projects</div>
+    <button class="add-btn" style="border-style:solid;padding:6px 14px" onclick="openProjectModal()">+ Add Project</button>
+  </div>`;
+
+  if(!projects.length) html+=`<div class="empty-state"><div class="big">🗂</div>No projects yet — add one above</div>`;
+
+  const today=todayISO();
+  projects.forEach(proj=>{
+    const items=proj.items||[];
+    const doneCount=items.filter(i=>i.done).length;
+    const pct=items.length?Math.round(doneCount/items.length*100):0;
+    html+=`<div class="project-card">
+      <div class="project-header" onclick="toggleProject('${proj.id}')">
+        <div>
+          <div class="project-title">${proj.name}</div>
+          ${proj.desc?`<div class="project-meta">${proj.desc}</div>`:''}
+          ${items.length?`<div class="project-meta">${doneCount}/${items.length} items · ${pct}%</div>`:'<div class="project-meta">No items yet</div>'}
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="proj-edit-btn" onclick="event.stopPropagation();openProjectModal('${proj.id}')">✏️</span>
+          <span style="color:var(--text3);font-size:18px">›</span>
+        </div>
+      </div>
+      <div class="project-body" id="projBody_${proj.id}">
+        ${items.length?`<div class="progress-bar" style="margin-bottom:12px"><div class="progress-fill" style="width:${pct}%;background:var(--accent)"></div></div>`:''}
+        ${items.map(item=>{
+          const overdue=item.due&&item.due<today&&!item.done;
+          return `<div class="project-item ${item.done?'proj-item-done':''}">
+            <div class="proj-check ${item.done?'done':''}" onclick="toggleProjItem('${proj.id}','${item.id}')">${item.done?'✓':''}</div>
+            <div class="proj-item-body">
+              <div class="proj-item-name">${item.name}</div>
+              ${item.due?`<div class="proj-item-due ${overdue?'overdue':''}">📅 ${fmtDate(item.due)}${overdue?' · overdue':''}</div>`:''}
+            </div>
+            <span class="task-edit-btn" onclick="openProjItemModal('${proj.id}','${item.id}')">✏️</span>
+          </div>`;
+        }).join('')}
+        <div class="proj-actions">
+          <button class="proj-add-item" onclick="openProjItemModal('${proj.id}')">+ Add Item</button>
+        </div>
+      </div>
+    </div>`;
+  });
+
+  document.getElementById('projectsContent').innerHTML=html;
+}
+
+function toggleProject(id){
+  const body=document.getElementById('projBody_'+id);
+  if(body) body.classList.toggle('open');
+}
+function toggleProjItem(projId,itemId){
+  const proj=(state.projects||[]).find(x=>x.id===projId); if(!proj)return;
+  const item=proj.items.find(x=>x.id===itemId); if(!item)return;
+  item.done=!item.done; save(); renderProjects();
+  // Re-open the project body
+  setTimeout(()=>{ const b=document.getElementById('projBody_'+projId); if(b) b.classList.add('open'); },10);
+}
+
+// Project modal
+let editProjectId=null;
+function openProjectModal(id){
+  editProjectId=id||null;
+  const p=id?(state.projects||[]).find(x=>x.id===id):null;
+  document.getElementById('projectModalTitle').textContent=p?'Edit Project':'Add Project';
+  document.getElementById('projectName').value=p?p.name:'';
+  document.getElementById('projectDesc').value=p?p.desc||'':'';
+  document.getElementById('projectDeleteBtn').style.display=p?'block':'none';
+  document.getElementById('projectModal').classList.add('open');
+  setTimeout(()=>document.getElementById('projectName').focus(),300);
+}
+function closeProjectModal(){ document.getElementById('projectModal').classList.remove('open'); editProjectId=null; }
+function saveProject(){
+  const name=document.getElementById('projectName').value.trim();
+  if(!name){alert('Please enter a project name.');return;}
+  if(!state.projects) state.projects=[];
+  if(editProjectId){
+    const p=state.projects.find(x=>x.id===editProjectId);
+    p.name=name; p.desc=document.getElementById('projectDesc').value.trim();
+  } else {
+    state.projects.push({id:Date.now().toString(),name,desc:document.getElementById('projectDesc').value.trim(),items:[]});
+  }
+  save(); closeProjectModal(); renderProjects();
+}
+function deleteProject(){
+  if(!confirm('Delete this project and all its items?'))return;
+  state.projects=state.projects.filter(x=>x.id!==editProjectId);
+  save(); closeProjectModal(); renderProjects();
+}
+
+// Project item modal
+let editProjId=null, editProjItemId=null;
+function openProjItemModal(projId,itemId){
+  editProjId=projId; editProjItemId=itemId||null;
+  const proj=(state.projects||[]).find(x=>x.id===projId);
+  const item=itemId?proj.items.find(x=>x.id===itemId):null;
+  document.getElementById('projItemModalTitle').textContent=item?'Edit Item':'Add Item';
+  document.getElementById('projItemName').value=item?item.name:'';
+  document.getElementById('projItemDue').value=item&&item.due?item.due:'';
+  document.getElementById('projItemDeleteBtn').style.display=item?'block':'none';
+  document.getElementById('projItemModal').classList.add('open');
+  setTimeout(()=>document.getElementById('projItemName').focus(),300);
+}
+function closeProjItemModal(){ document.getElementById('projItemModal').classList.remove('open'); editProjId=null; editProjItemId=null; }
+function saveProjItem(){
+  const name=document.getElementById('projItemName').value.trim();
+  if(!name){alert('Please enter an item name.');return;}
+  const proj=(state.projects||[]).find(x=>x.id===editProjId); if(!proj)return;
+  if(!proj.items) proj.items=[];
+  if(editProjItemId){
+    const item=proj.items.find(x=>x.id===editProjItemId);
+    item.name=name; item.due=document.getElementById('projItemDue').value||null;
+  } else {
+    proj.items.push({id:Date.now().toString(),name,due:document.getElementById('projItemDue').value||null,done:false});
+  }
+  save(); closeProjItemModal(); renderProjects();
+  setTimeout(()=>{ const b=document.getElementById('projBody_'+editProjId); if(b) b.classList.add('open'); },10);
+}
+function deleteProjItem(){
+  if(!confirm('Delete this item?'))return;
+  const proj=(state.projects||[]).find(x=>x.id===editProjId); if(!proj)return;
+  proj.items=proj.items.filter(x=>x.id!==editProjItemId);
+  save(); closeProjItemModal(); renderProjects();
+}
+
+// ─── EDIT PRACTICE MODAL ─────────────────────────────────────────────
+let editPid = null, editQcurrent = null;
+
+function openEditModal(id){
+  editPid = id;
+  const p = state.practices.find(x=>x.id===id);
+  document.getElementById('editPracticeName').value = p.name;
+  document.getElementById('editPracticeNote').value = p.defaultNote||'';
+  document.getElementById('editTrackTimeToggle').checked = !!p.trackTime;
+  editQcurrent = p.quadrant;
+  document.querySelectorAll('.eq-option').forEach(el=>{
+    const q=el.dataset.q, sel=q===editQcurrent;
+    el.classList.toggle('selected', sel);
+    el.style.background = sel ? Q_COLORS[q] : '';
+    el.style.color = sel ? 'white' : '';
+  });
+  document.getElementById('editModal').classList.add('open');
+  setTimeout(()=>document.getElementById('editPracticeName').focus(), 300);
+}
+
+function closeEditModal(){ document.getElementById('editModal').classList.remove('open'); editPid=null; editQcurrent=null; }
+
+function selectEditQuadrant(q){
+  editQcurrent = q;
+  document.querySelectorAll('.eq-option').forEach(el=>{
+    const eq=el.dataset.q, sel=eq===q;
+    el.classList.toggle('selected', sel);
+    el.style.background = sel ? Q_COLORS[eq] : '';
+    el.style.color = sel ? 'white' : '';
+  });
+}
+
+function saveEdit(){
+  const name = document.getElementById('editPracticeName').value.trim();
+  if(!name){ alert('Please enter a practice name.'); return; }
+  if(!editQcurrent){ alert('Please select a quadrant.'); return; }
+  const p = state.practices.find(x=>x.id===editPid);
+  if(!p) return;
+  p.name = name;
+  p.defaultNote = document.getElementById('editPracticeNote').value.trim();
+  p.quadrant = editQcurrent;
+  p.trackTime = document.getElementById('editTrackTimeToggle').checked;
+  save(); closeEditModal(); render();
+}
+
+function deletePractice(){
+  if(!confirm('Delete this practice and all its history? This cannot be undone.')) return;
+  state.practices = state.practices.filter(x=>x.id!==editPid);
+  save(); closeEditModal(); render();
+}
+
+// ─── PRACTICE NOTE MODAL ─────────────────────────────────────────────
+let notePid=null, notePdate=null;
+function openNoteModal(id, date){
+  notePid=id; notePdate=date;
+  const p=state.practices.find(x=>x.id===id);
+  document.getElementById('noteModalTitle').textContent=`📝 ${p.name}`;
+  const existing=(p.dailyNotes&&p.dailyNotes[date])||'';
+  document.getElementById('practiceNoteArea').value=existing||(p.defaultNote||'');
+  const hint=p.defaultNote?`Default: "${p.defaultNote}"`:'No default note set.';
+  document.getElementById('defaultNoteHint').textContent=hint;
+  document.getElementById('noteModal').classList.add('open');
+  setTimeout(()=>document.getElementById('practiceNoteArea').focus(),300);
+}
+function closeNoteModal(){ document.getElementById('noteModal').classList.remove('open'); notePid=null; notePdate=null; }
+function savePracticeNote(){
+  const p=state.practices.find(x=>x.id===notePid); if(!p)return;
+  if(!p.dailyNotes) p.dailyNotes={};
+  p.dailyNotes[notePdate]=document.getElementById('practiceNoteArea').value.trim();
+  save(); closeNoteModal(); renderDayView();
+}
+
+// ─── BACKUP / RESTORE ────────────────────────────────────────────────
+function openBackupModal(){ document.getElementById('backupModal').classList.add('open'); document.getElementById('backupMsg').textContent=''; }
+function closeBackupModal(){ document.getElementById('backupModal').classList.remove('open'); }
+
+function exportData(){
+  const data = JSON.stringify(state, null, 2);
+  const blob = new Blob([data], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const date = new Date();
+  const stamp = date.getFullYear()+'-'+String(date.getMonth()+1).padStart(2,'0')+'-'+String(date.getDate()).padStart(2,'0');
+  a.href = url; a.download = 'thanku-practices-backup-'+stamp+'.json';
+  a.click(); URL.revokeObjectURL(url);
+  document.getElementById('backupMsg').textContent = '✓ Backup downloaded successfully!';
+  document.getElementById('backupMsg').style.color = 'var(--accent)';
+}
+
+function importData(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e){
+    try {
+      const imported = JSON.parse(e.target.result);
+      if(!imported.practices || !Array.isArray(imported.practices)) throw new Error('Invalid file');
+      if(!confirm('This will replace all your current data with the backup. Continue?')) return;
+      Object.assign(state, imported);
+      save(); render();
+      document.getElementById('backupMsg').textContent = '✓ Data restored successfully!';
+      document.getElementById('backupMsg').style.color = 'var(--accent)';
+    } catch(err) {
+      document.getElementById('backupMsg').textContent = '✗ Invalid backup file. Please try again.';
+      document.getElementById('backupMsg').style.color = '#e8523a';
+    }
+    event.target.value = '';
+  };
+  reader.readAsText(file);
+}
+
+document.getElementById('backupBtn').addEventListener('click', openBackupModal);
+document.getElementById('backupModal').addEventListener('click',function(e){if(e.target===this)closeBackupModal();});
+document.getElementById('addModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+document.getElementById('noteModal').addEventListener('click',function(e){if(e.target===this)closeNoteModal();});
+document.getElementById('editModal').addEventListener('click',function(e){if(e.target===this)closeEditModal();});
+document.getElementById('taskModal').addEventListener('click',function(e){if(e.target===this)closeTaskModal();});
+document.getElementById('projectModal').addEventListener('click',function(e){if(e.target===this)closeProjectModal();});
+document.getElementById('projItemModal').addEventListener('click',function(e){if(e.target===this)closeProjItemModal();});
+document.getElementById('timeModal').addEventListener('click',function(e){if(e.target===this)closeTimeModal();});
+render();
+</script>
+
+<div id="installBanner" style="display:none;position:fixed;bottom:80px;left:16px;right:16px;background:var(--accent);color:white;border-radius:14px;padding:14px 16px;z-index:300;box-shadow:0 4px 20px rgba(0,0,0,0.3);display:none">
+  <div style="font-family:'DM Serif Display',serif;font-size:16px;margin-bottom:4px">Install Thanku Practices</div>
+  <div style="font-size:12px;opacity:0.85;margin-bottom:12px">Add to your home screen for quick access</div>
+  <div style="display:flex;gap:8px">
+    <button onclick="installApp()" style="flex:1;background:white;color:var(--accent);border:none;border-radius:8px;padding:10px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:13px;cursor:pointer">Install App</button>
+    <button onclick="dismissInstall()" style="background:rgba(255,255,255,0.2);color:white;border:none;border-radius:8px;padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer">Later</button>
+  </div>
+</div>
+
+<script>
+// Service Worker for offline + PWA
+if ('serviceWorker' in navigator) {
+  const swCode = `
+    const CACHE = 'thanku-v1';
+    self.addEventListener('install', e => {
+      self.skipWaiting();
+    });
+    self.addEventListener('activate', e => {
+      e.waitUntil(clients.claim());
+    });
+    self.addEventListener('fetch', e => {
+      e.respondWith(
+        caches.match(e.request).then(r => r || fetch(e.request).catch(() => new Response('Offline')))
+      );
+    });
+  `;
+  const swBlob = new Blob([swCode], {type:'application/javascript'});
+  const swUrl = URL.createObjectURL(swBlob);
+  navigator.serviceWorker.register(swUrl, {scope: '/'}).catch(()=>{});
+}
+
+// Install prompt
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const banner = document.getElementById('installBanner');
+  if (banner && !localStorage.getItem('installDismissed')) {
+    banner.style.display = 'block';
+  }
+});
+
+function installApp() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(() => {
+      deferredPrompt = null;
+      dismissInstall();
+    });
+  }
+}
+
+function dismissInstall() {
+  const banner = document.getElementById('installBanner');
+  if (banner) banner.style.display = 'none';
+  localStorage.setItem('installDismissed', '1');
+}
+
+// Also show install instructions for iOS/Samsung if no prompt available
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    const isInStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+    if (!isInStandalone && !deferredPrompt && !localStorage.getItem('installDismissed')) {
+      const banner = document.getElementById('installBanner');
+      if (banner) {
+        if (isIOS) {
+          banner.querySelector('div:nth-child(2)').textContent = 'Tap the Share button then "Add to Home Screen"';
+        } else {
+          banner.querySelector('div:nth-child(2)').textContent = 'Tap your browser menu → "Add to Home Screen"';
+        }
+        banner.querySelector('button:first-child').style.display = 'none';
+        banner.style.display = 'block';
+      }
+    }
+  }, 2000);
+});
+</script>
+</body>
+</html>
