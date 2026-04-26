@@ -593,7 +593,7 @@ function load(){
   if(s){try{Object.assign(state,JSON.parse(s));}catch(e){}}
   // Migrate Spirit → State Training
   if(state.practices) state.practices.forEach(p=>{ if(p.quadrant==='Spirit') p.quadrant='State Training'; });
-  state.selectedDay=toISO(new Date()); state.weekOffset=0;
+  state.selectedDay=toISO(new Date()); state.weekOffset=0; state.currentPage='practices';
 }
 function save(){ localStorage.setItem('thanku_v2',JSON.stringify(state)); }
 
