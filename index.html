@@ -591,6 +591,8 @@ let timePid=null, timePdate=null;
 function load(){
   const s=localStorage.getItem('thanku_v2');
   if(s){try{Object.assign(state,JSON.parse(s));}catch(e){}}
+  // Migrate Spirit → State Training
+  if(state.practices) state.practices.forEach(p=>{ if(p.quadrant==='Spirit') p.quadrant='State Training'; });
   state.selectedDay=toISO(new Date()); state.weekOffset=0;
 }
 function save(){ localStorage.setItem('thanku_v2',JSON.stringify(state)); }
