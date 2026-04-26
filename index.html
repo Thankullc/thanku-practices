@@ -451,7 +451,7 @@ document.getElementById('pwa-manifest').href = manifestUrl;
     <div class="modal-title" id="projItemModalTitle">Add Item</div>
     <div class="form-group">
       <label class="form-label">Item</label>
-      <input type="text" class="form-input" id="projItemName" placeholder="Action item…">
+      <textarea class="form-input" id="projItemName" placeholder="Action item…" rows="3" style="resize:vertical;min-height:70px;max-height:200px;font-family:'DM Sans',sans-serif;font-size:14px;overflow-y:auto"></textarea>
     </div>
     <div class="form-group">
       <label class="form-label">Due Date <span style="font-weight:400;color:var(--text3)">(optional)</span></label>
@@ -1234,6 +1234,21 @@ function deleteTask(){
 }
 
 // ─── PROJECTS ─────────────────────────────────────────────────────────
+
+function moveProjItem(projId, itemId, dir){
+  const proj=(state.projects||[]).find(x=>x.id===projId); if(!proj)return;
+  const active = proj.items.filter(i=>!i.done);
+  const done = proj.items.filter(i=>i.done);
+  const idx = active.findIndex(x=>x.id===itemId);
+  if(idx===-1)return;
+  const newIdx = idx+dir;
+  if(newIdx<0||newIdx>=active.length)return;
+  const tmp=active[idx]; active[idx]=active[newIdx]; active[newIdx]=tmp;
+  proj.items=[...active,...done];
+  save(); renderProjects();
+  setTimeout(()=>{ const b=document.getElementById('projBody_'+projId); if(b) b.classList.add('open'); },10);
+}
+
 function renderProjects(){
   const projects=state.projects||[];
   let html=`<div class="tasks-header">
@@ -1262,17 +1277,34 @@ function renderProjects(){
       </div>
       <div class="project-body" id="projBody_${proj.id}">
         ${items.length?`<div class="progress-bar" style="margin-bottom:12px"><div class="progress-fill" style="width:${pct}%;background:var(--accent)"></div></div>`:''}
-        ${items.map(item=>{
-          const overdue=item.due&&item.due<today&&!item.done;
-          return `<div class="project-item ${item.done?'proj-item-done':''}">
-            <div class="proj-check ${item.done?'done':''}" onclick="toggleProjItem('${proj.id}','${item.id}')">${item.done?'✓':''}</div>
-            <div class="proj-item-body">
+        ${items.filter(item=>!item.done).map((item,idx,arr)=>{
+          const overdue=item.due&&item.due<today;
+          return `<div class="project-item" style="opacity:1">
+            <div class="proj-check" onclick="toggleProjItem('${proj.id}','${item.id}')">${item.done?'✓':''}</div>
+            <div class="proj-item-body" style="flex:1">
               <div class="proj-item-name">${item.name}</div>
               ${item.due?`<div class="proj-item-due ${overdue?'overdue':''}">📅 ${fmtDate(item.due)}${overdue?' · overdue':''}</div>`:''}
+            </div>
+            <div style="display:flex;flex-direction:column;gap:2px;margin-right:4px">
+              <span style="cursor:pointer;font-size:12px;color:var(--text3);padding:1px 4px;border-radius:4px;line-height:1" onclick="moveProjItem('${proj.id}','${item.id}',-1)" title="Move up">▲</span>
+              <span style="cursor:pointer;font-size:12px;color:var(--text3);padding:1px 4px;border-radius:4px;line-height:1" onclick="moveProjItem('${proj.id}','${item.id}',1)" title="Move down">▼</span>
             </div>
             <span class="task-edit-btn" onclick="openProjItemModal('${proj.id}','${item.id}')">✏️</span>
           </div>`;
         }).join('')}
+        ${items.some(i=>i.done)?`
+          <div style="margin-top:10px;border-top:1px solid var(--border);padding-top:8px">
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:6px">Completed</div>
+            ${items.filter(item=>item.done).map(item=>{
+              return `<div class="project-item proj-item-done" style="opacity:0.45">
+                <div class="proj-check done" onclick="toggleProjItem('${proj.id}','${item.id}')">✓</div>
+                <div class="proj-item-body" style="flex:1">
+                  <div class="proj-item-name">${item.name}</div>
+                </div>
+                <span class="task-edit-btn" onclick="openProjItemModal('${proj.id}','${item.id}')">✏️</span>
+              </div>`;
+            }).join('')}
+          </div>`:''}
         <div class="proj-actions">
           <button class="proj-add-item" onclick="openProjItemModal('${proj.id}')">+ Add Item</button>
         </div>
