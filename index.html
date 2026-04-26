@@ -678,6 +678,11 @@ function load(){
     if(state.realmIcons['Stillness']==='⚡') state.realmIcons['Stillness']='🌳';
     if(state.realmIcons['Stillness']==='🙏') state.realmIcons['Stillness']='🌳';
   }
+  // Force correct display names for renamed realms
+  if(state.realmNames){
+    if(state.realmNames['Stillness']==='State Training') state.realmNames['Stillness']='Stillness';
+    if(state.realmNames['Stillness']==='Spirit') state.realmNames['Stillness']='Stillness';
+  }
   // Migrate existing notes into journal
   if(state.notes && state.journal!==undefined){
     Object.entries(state.notes).forEach(([date,text])=>{
