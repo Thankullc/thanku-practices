@@ -203,7 +203,7 @@ document.getElementById('pwa-manifest').href = manifestUrl;
   .cal-cell.other-month { opacity:0.35; }
   .cal-cell.selected .cal-date { color:white; }
   .cal-date { font-size:13px; font-weight:600; color:var(--text); text-align:center; }
-  .cal-dots { display:flex; flex-wrap:wrap; justify-content:center; gap:2px; margin-top:5px; }
+  .cal-dots { display:flex; flex-wrap:wrap; justify-content:center; gap:1px; margin-top:4px; line-height:1.2; }
   .cal-dot { width:6px; height:6px; border-radius:50%; }
   .month-legend { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; padding:12px 14px; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); }
   .legend-item { display:flex; align-items:center; gap:5px; font-size:11px; color:var(--text2); }
@@ -375,13 +375,13 @@ document.getElementById('pwa-manifest').href = manifestUrl;
         <button class="t-btn red" id="timerStopBtn" onclick="timerStop()" style="display:none">⏹ Stop</button>
         <button class="t-btn" onclick="timerReset()">↺ Reset</button>
       </div>
-      <div style="font-size:12px;color:var(--text3);margin-bottom:12px">— or enter minutes manually —</div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:12px">— or enter time manually —</div>
       <div class="manual-row" style="gap:6px;flex-wrap:wrap">
         <label>Time:</label>
-        <input type="number" id="manualMinutes" min="0" max="999" placeholder="0" style="width:60px">
+        <input type="number" id="manualHours" min="0" max="23" placeholder="0" style="width:60px">
+        <span>hr</span>
+        <input type="number" id="manualMinutes" min="0" max="59" placeholder="0" style="width:60px">
         <span>min</span>
-        <input type="number" id="manualSeconds" min="0" max="59" placeholder="0" style="width:60px">
-        <span>sec</span>
       </div>
     </div>
     <div class="modal-actions" style="margin-top:24px">
@@ -431,7 +431,7 @@ document.getElementById('pwa-manifest').href = manifestUrl;
     </div>
     <div class="form-group">
       <label class="form-label">Description <span style="font-weight:400;color:var(--text3)">(optional)</span></label>
-      <textarea class="form-input" id="projectDesc" placeholder="Notes, context, next steps…" rows="4" style="resize:vertical;min-height:80px;font-family:'DM Sans',sans-serif;font-size:14px"></textarea>
+      <textarea class="form-input" id="projectDesc" placeholder="Notes, context, next steps…" rows="4" style="resize:vertical;min-height:80px;max-height:300px;font-family:'DM Sans',sans-serif;font-size:14px;overflow-y:auto"></textarea>
     </div>
     <div class="modal-actions">
       <button class="btn-secondary" onclick="closeProjectModal()">Cancel</button>
@@ -609,7 +609,7 @@ function fmtWeek(days){
   return mo[days[0].getMonth()]+' '+days[0].getDate()+'–'+mo[days[6].getMonth()]+' '+days[6].getDate()+', '+days[6].getFullYear();
 }
 function todayISO(){ return toISO(new Date()); }
-function fmtMins(m){ if(!m)return ''; return m+'m'; }
+function fmtMins(m){ if(!m)return ''; if(m<60)return m+'m'; return Math.floor(m/60)+'h '+(m%60?m%60+'m':''); }
 function fmtTime(mins,secs){ 
   if(!mins&&!secs)return '';
   if(secs) return mins+'m '+secs+'s';
@@ -826,8 +826,10 @@ function timerStart(){
   document.getElementById('timerDisplay').classList.add('running');
   timerInterval=setInterval(()=>{
     timerSec++;
-    const m=Math.floor(timerSec/60), s=timerSec%60;
-    document.getElementById('timerDisplay').innerHTML=`${m} <span style="font-size:22px;color:var(--text3)">min ${String(s).padStart(2,'0')} sec</span>`;
+    const h=Math.floor(timerSec/3600), m=Math.floor((timerSec%3600)/60), s=timerSec%60;
+    const disp=h?`${h}h ${m}m ${String(s).padStart(2,'0')}s`:`${m} <span style="font-size:22px;color:var(--text3)">min ${String(s).padStart(2,'0')} sec</span>`;
+    document.getElementById('timerDisplay').innerHTML=disp;
+    if(document.getElementById('manualHours')) document.getElementById('manualHours').value=h||'';
     document.getElementById('manualMinutes').value=m||'';
   },1000);
 }
@@ -836,23 +838,21 @@ function timerStop(){
   document.getElementById('timerStartBtn').style.display='inline-block';
   document.getElementById('timerStopBtn').style.display='none';
   document.getElementById('timerDisplay').classList.remove('running');
-  const _m=Math.floor(timerSec/60), _s=timerSec%60;
-  document.getElementById('manualMinutes').value=_m;
-  if(document.getElementById('manualSeconds')) document.getElementById('manualSeconds').value=_s;
+  const _h=Math.floor(timerSec/3600), _m=Math.floor((timerSec%3600)/60);
+  if(document.getElementById('manualHours')) document.getElementById('manualHours').value=_h||'';
+  document.getElementById('manualMinutes').value=_m||'';
 }
 function timerReset(){
   timerStop(); timerSec=0;
-  document.getElementById('timerDisplay').innerHTML='0 <span style="font-size:22px;color:var(--text3)">min 00 sec</span>';
+  document.getElementById('timerDisplay').innerHTML='0 <span style="font-size:22px;color:var(--text3)">min 00 sec</span>'; if(document.getElementById('manualHours')) document.getElementById('manualHours').value='';
 }
 function saveTime(){
   timerStop();
   const p=state.practices.find(x=>x.id===timePid); if(!p){closeTimeModal();return;}
-  const mins=parseInt(document.getElementById('manualMinutes').value)||Math.ceil(timerSec/60)||0;
-  const secs=document.getElementById('manualSeconds')?parseInt(document.getElementById('manualSeconds').value)||0:0;
+  const hrs=document.getElementById('manualHours')?parseInt(document.getElementById('manualHours').value)||0:0;
+  const mins=(parseInt(document.getElementById('manualMinutes').value)||0)+(hrs*60)||Math.ceil(timerSec/60)||0;
   if(!p.minutes)p.minutes={};
-  if(!p.seconds)p.seconds={};
   p.minutes[timePdate]=mins;
-  p.seconds[timePdate]=secs;
   if(!p.completedDates.includes(timePdate)) p.completedDates.push(timePdate);
   save(); closeTimeModal(); render();
 }
@@ -974,9 +974,9 @@ function renderMonth(){
     const cm=compMap[iso];
     let dots='';
     if(cm){ 
-      cm.donePractices.forEach(q=>{ dots+=`<div class="cal-dot" style="background:${Q_COLORS[q]}"></div>`; });
+      cm.donePractices.forEach(q=>{ dots+=`<span style="font-size:9px;line-height:1;opacity:1">${Q_ICONS[q]}</span>`; });
       const undoneCt=cm.sched-cm.done;
-      if(undoneCt>0) dots+=`<div class="cal-dot" style="background:var(--border);opacity:0.6"></div>`.repeat(Math.min(undoneCt,3));
+      if(undoneCt>0) dots+=`<span style="font-size:8px;opacity:0.3">·</span>`.repeat(Math.min(undoneCt,3));
     }
     cells+=`<div class="cal-cell ${isToday?'today':''} ${isSel?'selected':''}" onclick="calSelectDay('${iso}')">
       <div class="cal-date">${d}</div>
