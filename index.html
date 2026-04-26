@@ -665,8 +665,14 @@ let timePid=null, timePdate=null;
 function load(){
   const s=localStorage.getItem('thanku_v2');
   if(s){try{Object.assign(state,JSON.parse(s));}catch(e){}}
-  // Migrate Spirit → Stillness
-  if(state.practices) state.practices.forEach(p=>{ if(p.quadrant==='Spirit') p.quadrant='Stillness'; });
+  // Migrate Spirit + State Training → Stillness
+  if(state.practices) state.practices.forEach(p=>{
+    if(p.quadrant==='Spirit'||p.quadrant==='State Training') p.quadrant='Stillness';
+  });
+  // Migrate realm settings keys
+  if(state.realmNames&&state.realmNames['State Training']){ state.realmNames['Stillness']=state.realmNames['State Training']; delete state.realmNames['State Training']; }
+  if(state.realmColors&&state.realmColors['State Training']){ state.realmColors['Stillness']=state.realmColors['State Training']; delete state.realmColors['State Training']; }
+  if(state.realmIcons&&state.realmIcons['State Training']){ state.realmIcons['Stillness']=state.realmIcons['State Training']; delete state.realmIcons['State Training']; }
   // Migrate existing notes into journal
   if(state.notes && state.journal!==undefined){
     Object.entries(state.notes).forEach(([date,text])=>{
