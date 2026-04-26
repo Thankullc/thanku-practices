@@ -372,7 +372,7 @@ document.getElementById('pwa-manifest').href = manifestUrl;
       <div class="quadrant-select">
         <div class="q-option" data-q="Body" onclick="selectQuadrant('Body')" style="border-color:#e8523a">🏃 Body</div>
         <div class="q-option" data-q="Mind" onclick="selectQuadrant('Mind')" style="border-color:#2d6fa3">📚 Mind</div>
-        <div class="q-option" data-q="State Training" onclick="selectQuadrant('State Training')" style="border-color:#7b4f9e">⚡ State Training</div>
+        <div class="q-option" data-q="Stillness" onclick="selectQuadrant('Stillness')" style="border-color:#7b4f9e">⚡ Stillness</div>
         <div class="q-option" data-q="Shadow" onclick="selectQuadrant('Shadow')" style="border-color:#3a6b4a">🪞 Shadow</div>
         <div class="q-option" data-q="Extra" onclick="selectQuadrant('Extra')" style="border-color:#4a7a9b">💡 Extra</div>
       </div>
@@ -544,7 +544,7 @@ document.getElementById('pwa-manifest').href = manifestUrl;
       <div class="quadrant-select" id="editQuadrantSelect">
         <div class="eq-option" data-q="Body" onclick="selectEditQuadrant('Body')" style="border-color:#e8523a">🏃 Body</div>
         <div class="eq-option" data-q="Mind" onclick="selectEditQuadrant('Mind')" style="border-color:#2d6fa3">📚 Mind</div>
-        <div class="eq-option" data-q="State Training" onclick="selectEditQuadrant('State Training')" style="border-color:#7b4f9e">⚡ State Training</div>
+        <div class="eq-option" data-q="Stillness" onclick="selectEditQuadrant('Stillness')" style="border-color:#7b4f9e">⚡ Stillness</div>
         <div class="eq-option" data-q="Shadow" onclick="selectEditQuadrant('Shadow')" style="border-color:#3a6b4a">🪞 Shadow</div>
         <div class="eq-option" data-q="Extra" onclick="selectEditQuadrant('Extra')" style="border-color:#4a7a9b">💡 Extra</div>
       </div>
@@ -645,16 +645,16 @@ document.getElementById('pwa-manifest').href = manifestUrl;
 
 <script>
 const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-const QUADRANTS = ['Body','Mind','State Training','Shadow','Extra'];
-const Q_COLORS = {Body:'#e8523a',Mind:'#2d6fa3','State Training':'#7b4f9e',Shadow:'#3a6b4a',Extra:'#4a7a9b'};
-const Q_ICONS  = {Body:'🏃',Mind:'📚','State Training':'⚡',Shadow:'🪞',Extra:'💡'};
+const QUADRANTS = ['Body','Mind','Stillness','Shadow','Extra'];
+const Q_COLORS = {Body:'#e8523a',Mind:'#2d6fa3','Stillness':'#7b4f9e',Shadow:'#3a6b4a',Extra:'#4a7a9b'};
+const Q_ICONS  = {Body:'🏃',Mind:'📚','Stillness':'⚡',Shadow:'🪞',Extra:'💡'};
 
 let state = {
   theme:'light', currentPage:'practices', weekOffset:0, selectedDay:null,
   practices:[], notes:{}, tasks:[], projects:[], monthOffset:0,
-  realmNames:{Body:'Body',Mind:'Mind','State Training':'State Training',Shadow:'Shadow',Extra:'Extra'},
-  realmColors:{Body:'#e8523a',Mind:'#2d6fa3','State Training':'#7b4f9e',Shadow:'#3a6b4a',Extra:'#4a7a9b'},
-  realmIcons:{Body:'🏃',Mind:'📚','State Training':'⚡',Shadow:'🪞',Extra:'💡'},
+  realmNames:{Body:'Body',Mind:'Mind','Stillness':'Stillness',Shadow:'Shadow',Extra:'Extra'},
+  realmColors:{Body:'#e8523a',Mind:'#2d6fa3','Stillness':'#7b4f9e',Shadow:'#3a6b4a',Extra:'#4a7a9b'},
+  realmIcons:{Body:'🏃',Mind:'📚','Stillness':'⚡',Shadow:'🪞',Extra:'💡'},
   journal:{} // {date: {entry:'', mood:0, energy:0, tags:[], quickNotes:[]}}
 };
 
@@ -665,8 +665,8 @@ let timePid=null, timePdate=null;
 function load(){
   const s=localStorage.getItem('thanku_v2');
   if(s){try{Object.assign(state,JSON.parse(s));}catch(e){}}
-  // Migrate Spirit → State Training
-  if(state.practices) state.practices.forEach(p=>{ if(p.quadrant==='Spirit') p.quadrant='State Training'; });
+  // Migrate Spirit → Stillness
+  if(state.practices) state.practices.forEach(p=>{ if(p.quadrant==='Spirit') p.quadrant='Stillness'; });
   // Migrate existing notes into journal
   if(state.notes && state.journal!==undefined){
     Object.entries(state.notes).forEach(([date,text])=>{
