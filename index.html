@@ -315,6 +315,9 @@ document.getElementById('pwa-manifest').href = manifestUrl;
   <div class="page" id="pageProjects">
     <div id="projectsContent"></div>
   </div>
+  <div class="page" id="pageSettings">
+    <div id="settingsContent"></div>
+  </div>
 </div>
 
 <!-- ADD PRACTICE MODAL -->
@@ -462,6 +465,33 @@ document.getElementById('pwa-manifest').href = manifestUrl;
   </div>
 </div>
 
+<!-- REALM EDIT MODAL -->
+<div class="modal-overlay" id="realmModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Edit Realm</div>
+    <div class="form-group">
+      <label class="form-label">Name</label>
+      <input type="text" class="form-input" id="realmNameInput" placeholder="Realm name">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Icon (emoji)</label>
+      <input type="text" class="form-input" id="realmIconInput" placeholder="e.g. ⚡" style="font-size:22px;text-align:center;width:80px">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Color</label>
+      <div style="display:flex;align-items:center;gap:12px">
+        <input type="color" id="realmColorInput" style="width:60px;height:44px;border:2px solid var(--border);border-radius:10px;padding:2px;cursor:pointer;background:none">
+        <span style="font-size:13px;color:var(--text3)">Tap to pick a color</span>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeRealmModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveRealm()">Save</button>
+    </div>
+  </div>
+</div>
+
 <!-- EDIT PRACTICE MODAL -->
 <div class="modal-overlay" id="editModal">
   <div class="modal">
@@ -571,6 +601,9 @@ document.getElementById('pwa-manifest').href = manifestUrl;
   <button class="nav-btn" id="navProjects" onclick="setPage('projects')">
     <span class="nav-icon">🗂</span>Projects
   </button>
+  <button class="nav-btn" id="navSettings" onclick="setPage('settings')">
+    <span class="nav-icon">⚙️</span>Settings
+  </button>
 </div>
 
 <script>
@@ -581,7 +614,10 @@ const Q_ICONS  = {Body:'🏃',Mind:'📚','State Training':'⚡',Shadow:'🪞',E
 
 let state = {
   theme:'light', currentPage:'practices', weekOffset:0, selectedDay:null,
-  practices:[], notes:{}, tasks:[], projects:[], monthOffset:0
+  practices:[], notes:{}, tasks:[], projects:[], monthOffset:0,
+  realmNames:{Body:'Body',Mind:'Mind','State Training':'State Training',Shadow:'Shadow',Extra:'Extra'},
+  realmColors:{Body:'#e8523a',Mind:'#2d6fa3','State Training':'#7b4f9e',Shadow:'#3a6b4a',Extra:'#4a7a9b'},
+  realmIcons:{Body:'🏃',Mind:'📚','State Training':'⚡',Shadow:'🪞',Extra:'💡'}
 };
 
 // Timer
@@ -609,6 +645,9 @@ function fmtWeek(days){
   return mo[days[0].getMonth()]+' '+days[0].getDate()+'–'+mo[days[6].getMonth()]+' '+days[6].getDate()+', '+days[6].getFullYear();
 }
 function todayISO(){ return toISO(new Date()); }
+function getRN(q){ return (state.realmNames&&state.realmNames[q])||q; }
+function getRC(q){ return (state.realmColors&&state.realmColors[q])||getRC(q)||'#888'; }
+function getRI(q){ return (state.realmIcons&&state.realmIcons[q])||getRI(q)||'⚪'; }
 function fmtMins(m){ if(!m)return ''; if(m<60)return m+'m'; return Math.floor(m/60)+'h '+(m%60?m%60+'m':''); }
 function fmtTime(mins,secs){ 
   if(!mins&&!secs)return '';
@@ -624,6 +663,7 @@ function render(){
   else if(state.currentPage==='month') renderMonth();
   else if(state.currentPage==='tasks') renderTasks();
   else if(state.currentPage==='projects') renderProjects();
+  else if(state.currentPage==='settings') renderSettings();
 }
 
 function renderHeader(){
@@ -644,7 +684,7 @@ function renderDayView(){
   document.getElementById('weekGrid').innerHTML=days.map(d=>{
     const iso=toISO(d);
     const dots=QUADRANTS.map(q=>state.practices.some(p=>p.scheduledDates.includes(iso)&&p.quadrant===q)
-      ?`<div class="day-dot" style="background:${Q_COLORS[q]}"></div>`:'').join('');
+      ?`<div class="day-dot" style="background:${getRC(q)}"></div>`:'').join('');
     return `<div class="day-pill ${iso===today?'today':''} ${iso===sel?'selected':''}" onclick="selectDay('${iso}')">
       <div class="day-letter">${DAYS[d.getDay()]}</div>
       <div class="day-num">${d.getDate()}</div>
@@ -659,7 +699,7 @@ function renderDayView(){
     const doneCount=ps.filter(p=>p.completedDates.includes(sel)).length;
     const pct=Math.round(doneCount/ps.length*100);
     html+=`<div class="section-header">
-      <div class="section-title"><span class="quadrant-dot" style="background:${Q_COLORS[q]}"></span>${Q_ICONS[q]} ${q}</div>
+      <div class="section-title"><span class="quadrant-dot" style="background:${getRC(q)}"></span>${getRI(q)} ${q}</div>
       <button class="add-btn" onclick="openAddModal('${q}')">+ Add</button>
     </div><div class="practices-list">`;
     ps.forEach(p=>{
@@ -685,7 +725,7 @@ function renderDayView(){
         </div>
       </div>`;
     });
-    html+=`</div><div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${Q_COLORS[q]}"></div></div>`;
+    html+=`</div><div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${getRC(q)}"></div></div>`;
   });
 
   if(!html) html=`<div class="empty-state"><div class="big">📝</div>Nothing scheduled yet<br><br>
@@ -712,9 +752,9 @@ function renderWeekView(){
     const total=qp.reduce((a,p)=>a+isos.filter(d=>p.scheduledDates.includes(d)).length,0);
     const done=qp.reduce((a,p)=>a+isos.filter(d=>p.completedDates.includes(d)).length,0);
     const mins=qp.reduce((a,p)=>a+isos.reduce((b,d)=>b+((p.minutes&&p.minutes[d])||0),0),0);
-    return `<div class="stat-box" style="border-color:${Q_COLORS[q]}30">
-      <div class="stat-num" style="color:${Q_COLORS[q]}">${done}<span style="font-size:12px;color:var(--text3)">/${total}</span></div>
-      <div class="stat-label">${Q_ICONS[q]} ${q}</div>
+    return `<div class="stat-box" style="border-color:${getRC(q)}30">
+      <div class="stat-num" style="color:${getRC(q)}">${done}<span style="font-size:12px;color:var(--text3)">/${total}</span></div>
+      <div class="stat-label">${getRI(q)} ${q}</div>
       ${mins?`<div class="stat-mins">${fmtMins(mins)}</div>`:''}
     </div>`;
   }).join('');
@@ -723,7 +763,7 @@ function renderWeekView(){
   QUADRANTS.forEach(q=>{
     const rel=state.practices.filter(p=>p.quadrant===q&&isos.some(d=>p.scheduledDates.includes(d)));
     if(!rel.length)return;
-    html+=`<div class="section-header"><div class="section-title"><span class="quadrant-dot" style="background:${Q_COLORS[q]}"></span>${Q_ICONS[q]} ${q}</div></div>`;
+    html+=`<div class="section-header"><div class="section-title"><span class="quadrant-dot" style="background:${getRC(q)}"></span>${getRI(q)} ${q}</div></div>`;
     rel.forEach(p=>{
       html+=`<div class="summary-card" style="margin-bottom:8px;padding:12px 14px">
         <div style="font-weight:600;font-size:14px;margin-bottom:8px">${p.name}${p.trackTime?' ⏱':''}</div>
@@ -732,7 +772,7 @@ function renderWeekView(){
         const iso=toISO(d), sched=p.scheduledDates.includes(iso), done=p.completedDates.includes(iso);
         const m=(p.minutes&&p.minutes[iso])||0;
         let bg='var(--bg2)', col='var(--text3)', cursor='default';
-        if(done){bg=Q_COLORS[q];col='white';}else if(sched){bg=Q_COLORS[q]+'30';col=Q_COLORS[q];}
+        if(done){bg=getRC(q);col='white';}else if(sched){bg=getRC(q)+'30';col=getRC(q);}
         if(sched) cursor='pointer';
         const clickHandler=sched?`onclick="weekTap('${p.id}','${iso}',${done},${p.trackTime})"`:'';;
         const holdHandler=sched?`oncontextmenu="event.preventDefault();weekJump('${iso}')" ontouchstart="weekHoldStart('${iso}')" ontouchend="weekHoldEnd()"`:'';;
@@ -767,7 +807,7 @@ function renderHistory(){
     QUADRANTS.forEach(q=>{
       const qp=state.practices.filter(p=>p.quadrant===q&&wD.some(d=>p.scheduledDates.includes(d)));
       if(!qp.length)return;
-      html+=`<div class="history-quad"><div class="history-quad-title">${Q_ICONS[q]} ${q}</div>`;
+      html+=`<div class="history-quad"><div class="history-quad-title">${getRI(q)} ${q}</div>`;
       qp.forEach(p=>{ wD.forEach(d=>{ if(!p.scheduledDates.includes(d))return; const done=p.completedDates.includes(d),dt=fromISO(d),m=(p.minutes&&p.minutes[d])||0;
         html+=`<div class="history-item ${done?'done-item':'planned-item'}"><span class="hi-name">${p.name} — ${DAYS[dt.getDay()]} ${dt.getDate()}</span>${m?`<span class="hi-mins">${fmtMins(m)}</span>`:''}</div>`;
       }); });
@@ -874,7 +914,7 @@ function openAddModal(preQ){
   document.getElementById('trackTimeToggle').checked=false;
   document.querySelectorAll('.q-option').forEach(el=>{
     const q=el.dataset.q,s=q===editQ;
-    el.classList.toggle('selected',s); el.style.background=s?Q_COLORS[q]:''; el.style.color=s?'white':'';
+    el.classList.toggle('selected',s); el.style.background=s?getRC(q):''; el.style.color=s?'white':'';
   });
   const days=getWeekDays(state.weekOffset);
   document.getElementById('daysSelect').innerHTML=days.map(d=>{
@@ -913,7 +953,7 @@ function setView(v){
 }
 function setPage(page){
   state.currentPage=page;
-  ['practices','week','history','month','tasks','projects'].forEach(p=>{
+  ['practices','week','history','month','tasks','projects','settings'].forEach(p=>{
     const cap=p.charAt(0).toUpperCase()+p.slice(1);
     const pg=document.getElementById('page'+cap);
     const nv=document.getElementById('nav'+cap);
@@ -974,7 +1014,7 @@ function renderMonth(){
     const cm=compMap[iso];
     let dots='';
     if(cm){ 
-      cm.donePractices.forEach(q=>{ dots+=`<span style="font-size:9px;line-height:1;opacity:1">${Q_ICONS[q]}</span>`; });
+      cm.donePractices.forEach(q=>{ dots+=`<span style="font-size:9px;line-height:1;opacity:1">${getRI(q)}</span>`; });
       const undoneCt=cm.sched-cm.done;
       if(undoneCt>0) dots+=`<span style="font-size:8px;opacity:0.3">·</span>`.repeat(Math.min(undoneCt,3));
     }
@@ -996,11 +1036,11 @@ function renderMonth(){
     });
   });
   const realmCards=QUADRANTS.filter(q=>realmMins[q]>0).map(q=>`
-    <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--card);border:1px solid ${Q_COLORS[q]}40;border-radius:10px;flex:1;min-width:100px">
-      <div style="width:10px;height:10px;border-radius:50%;background:${Q_COLORS[q]};flex-shrink:0"></div>
+    <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--card);border:1px solid ${getRC(q)}40;border-radius:10px;flex:1;min-width:100px">
+      <div style="width:10px;height:10px;border-radius:50%;background:${getRC(q)};flex-shrink:0"></div>
       <div>
-        <div style="font-size:10px;color:var(--text3)">${Q_ICONS[q]} ${q}</div>
-        <div style="font-size:15px;font-weight:700;color:${Q_COLORS[q]}">${realmMins[q]}m</div>
+        <div style="font-size:10px;color:var(--text3)">${getRI(q)} ${q}</div>
+        <div style="font-size:15px;font-weight:700;color:${getRC(q)}">${realmMins[q]}m</div>
       </div>
     </div>`).join('');
 
@@ -1011,7 +1051,7 @@ function renderMonth(){
       <button class="month-nav-btn" onclick="changeMonth(1)">›</button>
     </div>
     <div class="cal-grid">${cells}</div>
-    <div class="month-legend">${QUADRANTS.map(q=>`<div class="legend-item"><div class="legend-dot" style="background:${Q_COLORS[q]}"></div>${Q_ICONS[q]} ${q}</div>`).join('')}</div>
+    <div class="month-legend">${QUADRANTS.map(q=>`<div class="legend-item"><div class="legend-dot" style="background:${getRC(q)}"></div>${getRI(q)} ${q}</div>`).join('')}</div>
     ${realmCards?`<div style="margin-top:14px"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:8px">⏱ Minutes This Month</div><div style="display:flex;flex-wrap:wrap;gap:8px">${realmCards}</div></div>`:''}
 `;
 }
@@ -1025,6 +1065,81 @@ function calSelectDay(iso){
   const daysDiff=Math.round((d-today)/86400000);
   state.weekOffset=Math.floor((daysDiff+today.getDay())/7);
   save(); setPage('practices');
+}
+
+
+// ─── SETTINGS ────────────────────────────────────────────────────────
+function renderSettings(){
+  const html = `
+    <div style="font-family:'DM Serif Display',serif;font-size:22px;margin-bottom:18px">Settings</div>
+
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:10px">Realms</div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px">
+      ${QUADRANTS.map((q,i)=>`
+        <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;${i>0?'border-top:1px solid var(--border)':''};cursor:pointer" onclick="openRealmModal('${q}')">
+          <div style="width:36px;height:36px;border-radius:10px;background:${getRC(q)}20;border:2px solid ${getRC(q)};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${getRI(q)}</div>
+          <div style="flex:1">
+            <div style="font-size:15px;font-weight:600;color:var(--text)">${getRN(q)}</div>
+            <div style="font-size:11px;color:var(--text3)">Tap to rename, recolor, or change icon</div>
+          </div>
+          <div style="width:20px;height:20px;border-radius:50%;background:${getRC(q)}"></div>
+        </div>`).join('')}
+    </div>
+
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:10px">Appearance</div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px">
+        <div>
+          <div style="font-size:15px;font-weight:600;color:var(--text)">Theme</div>
+          <div style="font-size:11px;color:var(--text3)">Light or dark mode</div>
+        </div>
+        <button onclick="toggleTheme()" style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);cursor:pointer">${state.theme==='dark'?'☀️ Light':'🌙 Dark'}</button>
+      </div>
+    </div>
+
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:10px">Data</div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border)">
+        <div>
+          <div style="font-size:15px;font-weight:600;color:var(--text)">Export Backup</div>
+          <div style="font-size:11px;color:var(--text3)">Save all your data as a JSON file</div>
+        </div>
+        <button onclick="exportData()" style="background:var(--accent);color:white;border:none;border-radius:10px;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer">💾 Export</button>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px">
+        <div>
+          <div style="font-size:15px;font-weight:600;color:var(--text)">Import Backup</div>
+          <div style="font-size:11px;color:var(--text3)">Restore from a saved JSON file</div>
+        </div>
+        <button onclick="document.getElementById('importFile').click()" style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);cursor:pointer">📂 Import</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('settingsContent').innerHTML=html;
+}
+
+let editRealmKey=null;
+function openRealmModal(q){
+  editRealmKey=q;
+  document.getElementById('realmNameInput').value=getRN(q);
+  document.getElementById('realmIconInput').value=getRI(q);
+  document.getElementById('realmColorInput').value=getRC(q);
+  document.getElementById('realmModal').classList.add('open');
+  setTimeout(()=>document.getElementById('realmNameInput').focus(),300);
+}
+function closeRealmModal(){ document.getElementById('realmModal').classList.remove('open'); editRealmKey=null; }
+function saveRealm(){
+  const name=document.getElementById('realmNameInput').value.trim();
+  const icon=document.getElementById('realmIconInput').value.trim();
+  const color=document.getElementById('realmColorInput').value;
+  if(!name){alert('Please enter a realm name.');return;}
+  if(!state.realmNames) state.realmNames={};
+  if(!state.realmColors) state.realmColors={};
+  if(!state.realmIcons) state.realmIcons={};
+  state.realmNames[editRealmKey]=name;
+  state.realmColors[editRealmKey]=color;
+  state.realmIcons[editRealmKey]=icon||getRI(editRealmKey);
+  save(); closeRealmModal(); renderSettings();
 }
 
 // ─── TASKS ────────────────────────────────────────────────────────────
@@ -1282,7 +1397,7 @@ function openEditModal(id){
   document.querySelectorAll('.eq-option').forEach(el=>{
     const q=el.dataset.q, sel=q===editQcurrent;
     el.classList.toggle('selected', sel);
-    el.style.background = sel ? Q_COLORS[q] : '';
+    el.style.background = sel ? getRC(q) : '';
     el.style.color = sel ? 'white' : '';
   });
   document.getElementById('editModal').classList.add('open');
@@ -1388,6 +1503,7 @@ document.getElementById('editModal').addEventListener('click',function(e){if(e.t
 document.getElementById('taskModal').addEventListener('click',function(e){if(e.target===this)closeTaskModal();});
 document.getElementById('projectModal').addEventListener('click',function(e){if(e.target===this)closeProjectModal();});
 document.getElementById('projItemModal').addEventListener('click',function(e){if(e.target===this)closeProjItemModal();});
+document.getElementById('realmModal').addEventListener('click',function(e){if(e.target===this)closeRealmModal();});
 document.getElementById('timeModal').addEventListener('click',function(e){if(e.target===this)closeTimeModal();});
 render();
 </script>
