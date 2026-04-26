@@ -673,6 +673,11 @@ function load(){
   if(state.realmNames&&state.realmNames['State Training']){ state.realmNames['Stillness']=state.realmNames['State Training']; delete state.realmNames['State Training']; }
   if(state.realmColors&&state.realmColors['State Training']){ state.realmColors['Stillness']=state.realmColors['State Training']; delete state.realmColors['State Training']; }
   if(state.realmIcons&&state.realmIcons['State Training']){ state.realmIcons['Stillness']=state.realmIcons['State Training']; delete state.realmIcons['State Training']; }
+  // Force correct icons for renamed realms
+  if(state.realmIcons){ 
+    if(state.realmIcons['Stillness']==='⚡') state.realmIcons['Stillness']='🌳';
+    if(state.realmIcons['Stillness']==='🙏') state.realmIcons['Stillness']='🌳';
+  }
   // Migrate existing notes into journal
   if(state.notes && state.journal!==undefined){
     Object.entries(state.notes).forEach(([date,text])=>{
