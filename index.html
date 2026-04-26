@@ -1188,9 +1188,9 @@ function renderJournal(){
     <div class="journal-section">
       <div class="journal-section-title">⚡ Quick Notes</div>
       ${quickNotesList||'<div style="font-size:13px;color:var(--text3);margin-bottom:10px">No quick notes yet today</div>'}
-      <div style="display:flex;gap:8px;margin-top:8px">
-        <input type="text" id="quickNoteInput" class="form-input" placeholder="Capture a Thought…" style="flex:1;padding:8px 12px;min-width:0" onkeydown="if(event.key==='Enter')addQuickNote()">
-        <button class="btn-primary" onclick="addQuickNote()" style="padding:8px 10px;flex-shrink:0;font-size:13px">＋ Add</button>
+      <div style="margin-top:8px">
+        <input type="text" id="quickNoteInput" class="form-input" placeholder="Capture a Thought…" style="width:100%;padding:8px 12px;margin-bottom:8px" onkeydown="if(event.key==='Enter')addQuickNote()">
+        <button class="btn-primary" onclick="addQuickNote()" style="width:100%;padding:8px;font-size:13px">＋ Add Thought</button>
       </div>
     </div>
 
