@@ -191,6 +191,37 @@ document.getElementById('pwa-manifest').href = manifestUrl;
   .nav-btn .nav-icon { font-size: 20px; }
 
 
+
+  /* JOURNAL */
+  .journal-date-header { font-family:'DM Serif Display',serif; font-size:22px; margin-bottom:4px; }
+  .journal-date-sub { font-size:12px; color:var(--text3); margin-bottom:16px; }
+  .journal-section { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:16px; margin-bottom:14px; }
+  .journal-section-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--text3); margin-bottom:10px; }
+  .journal-textarea { width:100%; background:var(--bg2); border:1px solid var(--border); border-radius:10px; padding:12px; font-family:'DM Sans',sans-serif; font-size:14px; color:var(--text); resize:vertical; min-height:100px; outline:none; line-height:1.6; }
+  .journal-textarea:focus { border-color:var(--accent); }
+  .mood-row { display:flex; gap:8px; justify-content:space-between; }
+  .mood-btn { flex:1; padding:8px 4px; border:2px solid var(--border); border-radius:10px; text-align:center; cursor:pointer; font-size:18px; transition:all 0.15s; background:none; }
+  .mood-btn.selected { border-color:var(--accent); background:var(--done-bg); }
+  .energy-row { display:flex; gap:6px; align-items:center; margin-top:12px; }
+  .energy-label { font-size:12px; color:var(--text3); width:56px; flex-shrink:0; }
+  .energy-track { flex:1; height:8px; background:var(--border); border-radius:4px; overflow:hidden; cursor:pointer; position:relative; }
+  .energy-fill { height:100%; border-radius:4px; background:var(--accent); transition:width 0.2s; }
+  .energy-val { font-size:12px; font-weight:700; color:var(--accent); width:28px; text-align:right; }
+  .tag-row { display:flex; flex-wrap:wrap; gap:6px; }
+  .tag-btn { padding:5px 12px; border:1.5px solid var(--border); border-radius:20px; font-size:12px; font-weight:600; cursor:pointer; background:none; color:var(--text2); transition:all 0.15s; }
+  .tag-btn.selected { border-color:var(--accent); background:var(--done-bg); color:var(--accent); }
+  .quick-note-item { display:flex; align-items:flex-start; gap:8px; padding:8px 0; border-bottom:1px solid var(--border); }
+  .quick-note-item:last-child { border-bottom:none; }
+  .quick-note-time { font-size:10px; color:var(--text3); flex-shrink:0; margin-top:2px; }
+  .quick-note-text { font-size:13px; color:var(--text); flex:1; line-height:1.5; }
+  .quick-note-del { font-size:14px; color:var(--text3); cursor:pointer; flex-shrink:0; }
+  .journal-entry-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; margin-bottom:10px; cursor:pointer; }
+  .journal-entry-date { font-size:12px; color:var(--text3); margin-bottom:4px; }
+  .journal-entry-preview { font-size:13px; color:var(--text); line-height:1.5; }
+  .journal-entry-tags { display:flex; gap:4px; flex-wrap:wrap; margin-top:6px; }
+  .journal-entry-tag { font-size:10px; padding:2px 8px; border-radius:20px; background:var(--done-bg); color:var(--accent); font-weight:600; }
+  .journal-nav { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+  .journal-nav-btn { background:none; border:1px solid var(--border); border-radius:8px; padding:5px 12px; font-size:18px; color:var(--text2); cursor:pointer; }
   /* MONTH VIEW */
   .month-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
   .month-title { font-family:'DM Serif Display',serif; font-size:22px; }
@@ -286,7 +317,7 @@ document.getElementById('pwa-manifest').href = manifestUrl;
     <div id="dayContent"></div>
     <div class="notes-card">
       <div style="font-family:'DM Serif Display',serif;font-size:15px;display:flex;align-items:center;gap:8px;margin-bottom:10px">
-        <span>💬</span> What do I want to say today?
+        <span>💬</span> What do I want to say today? <span style="font-size:11px;color:var(--accent);cursor:pointer;font-weight:600" onclick="journalDate=state.selectedDay;setPage('journal')">Open Journal →</span>
       </div>
       <textarea class="notes-area" id="notesArea" placeholder="Whatever's on your mind…"></textarea>
       <button class="notes-save" onclick="saveNote()">Save</button>
@@ -314,6 +345,9 @@ document.getElementById('pwa-manifest').href = manifestUrl;
   </div>
   <div class="page" id="pageProjects">
     <div id="projectsContent"></div>
+  </div>
+  <div class="page" id="pageJournal">
+    <div id="journalContent"></div>
   </div>
   <div class="page" id="pageSettings">
     <div id="settingsContent"></div>
@@ -601,6 +635,9 @@ document.getElementById('pwa-manifest').href = manifestUrl;
   <button class="nav-btn" id="navProjects" onclick="setPage('projects')">
     <span class="nav-icon">🗂</span>Projects
   </button>
+  <button class="nav-btn" id="navJournal" onclick="setPage('journal')">
+    <span class="nav-icon">📓</span>Journal
+  </button>
   <button class="nav-btn" id="navSettings" onclick="setPage('settings')">
     <span class="nav-icon">⚙️</span>Settings
   </button>
@@ -617,7 +654,8 @@ let state = {
   practices:[], notes:{}, tasks:[], projects:[], monthOffset:0,
   realmNames:{Body:'Body',Mind:'Mind','State Training':'State Training',Shadow:'Shadow',Extra:'Extra'},
   realmColors:{Body:'#e8523a',Mind:'#2d6fa3','State Training':'#7b4f9e',Shadow:'#3a6b4a',Extra:'#4a7a9b'},
-  realmIcons:{Body:'🏃',Mind:'📚','State Training':'⚡',Shadow:'🪞',Extra:'💡'}
+  realmIcons:{Body:'🏃',Mind:'📚','State Training':'⚡',Shadow:'🪞',Extra:'💡'},
+  journal:{} // {date: {entry:'', mood:0, energy:0, tags:[], quickNotes:[]}}
 };
 
 // Timer
@@ -629,6 +667,13 @@ function load(){
   if(s){try{Object.assign(state,JSON.parse(s));}catch(e){}}
   // Migrate Spirit → State Training
   if(state.practices) state.practices.forEach(p=>{ if(p.quadrant==='Spirit') p.quadrant='State Training'; });
+  // Migrate existing notes into journal
+  if(state.notes && state.journal!==undefined){
+    Object.entries(state.notes).forEach(([date,text])=>{
+      if(text && !state.journal[date]) state.journal[date]={entry:text,mood:0,energy:5,tags:[],quickNotes:[]};
+      else if(text && state.journal[date] && !state.journal[date].entry) state.journal[date].entry=text;
+    });
+  }
   state.selectedDay=toISO(new Date()); state.weekOffset=0; state.currentPage='practices';
 }
 function save(){ localStorage.setItem('thanku_v2',JSON.stringify(state)); }
@@ -663,6 +708,7 @@ function render(){
   else if(state.currentPage==='month') renderMonth();
   else if(state.currentPage==='tasks') renderTasks();
   else if(state.currentPage==='projects') renderProjects();
+  else if(state.currentPage==='journal') renderJournal();
   else if(state.currentPage==='settings') renderSettings();
 }
 
@@ -953,7 +999,7 @@ function setView(v){
 }
 function setPage(page){
   state.currentPage=page;
-  ['practices','week','history','month','tasks','projects','settings'].forEach(p=>{
+  ['practices','week','history','month','tasks','projects','journal','settings'].forEach(p=>{
     const cap=p.charAt(0).toUpperCase()+p.slice(1);
     const pg=document.getElementById('page'+cap);
     const nv=document.getElementById('nav'+cap);
@@ -1067,6 +1113,178 @@ function calSelectDay(iso){
   save(); setPage('practices');
 }
 
+
+
+// ─── JOURNAL ──────────────────────────────────────────────────────────
+const JOURNAL_TAGS = ['Gratitude','Insight','Challenge','Growth','Reflection','Intention','Breakthrough','Struggle'];
+const MOODS = ['😔','😐','🙂','😊','🤩'];
+const MOOD_LABELS = ['Low','Okay','Good','Great','Amazing'];
+let journalDate = null; // ISO date being viewed
+
+function getJEntry(date){
+  if(!state.journal) state.journal={};
+  if(!state.journal[date]) state.journal[date]={entry:'',mood:0,energy:5,tags:[],quickNotes:[]};
+  return state.journal[date];
+}
+
+function renderJournal(){
+  if(!journalDate) journalDate = todayISO();
+  const j = getJEntry(journalDate);
+  const d = fromISO(journalDate);
+  const dayNames=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const monNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const dayLabel = dayNames[d.getDay()]+', '+monNames[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear();
+  const isToday = journalDate===todayISO();
+
+  const moodBtns = MOODS.map((m,i)=>`
+    <button class="mood-btn ${j.mood===i+1?'selected':''}" onclick="setJMood(${i+1})" title="${MOOD_LABELS[i]}">${m}</button>
+  `).join('');
+
+  const tagBtns = JOURNAL_TAGS.map(t=>`
+    <button class="tag-btn ${j.tags&&j.tags.includes(t)?'selected':''}" onclick="toggleJTag('${t}')">${t}</button>
+  `).join('');
+
+  const quickNotesList = (j.quickNotes||[]).map((n,i)=>`
+    <div class="quick-note-item">
+      <div class="quick-note-time">${n.time}</div>
+      <div class="quick-note-text">${n.text}</div>
+      <span class="quick-note-del" onclick="deleteQuickNote(${i})">✕</span>
+    </div>
+  `).join('');
+
+  document.getElementById('journalContent').innerHTML=`
+    <div class="journal-nav">
+      <button class="journal-nav-btn" onclick="journalNav(-1)">‹</button>
+      <div style="text-align:center">
+        <div class="journal-date-header">${isToday?'Today':dayLabel.split(',')[0]}</div>
+        <div class="journal-date-sub">${isToday?dayLabel:dayLabel}</div>
+      </div>
+      <button class="journal-nav-btn" onclick="journalNav(1)" ${isToday?'style="opacity:0.3;pointer-events:none"':''}>›</button>
+    </div>
+
+    <div class="journal-section">
+      <div class="journal-section-title">📝 Daily Reflection</div>
+      <textarea class="journal-textarea" id="journalEntry" placeholder="What's on your mind today? What did you notice? What are you grateful for?">${j.entry||''}</textarea>
+      <button class="notes-save" onclick="saveJEntry()" style="margin-top:8px">Save</button>
+    </div>
+
+    <div class="journal-section">
+      <div class="journal-section-title">🌡 Mood & Energy</div>
+      <div class="mood-row">${moodBtns}</div>
+      <div class="energy-row">
+        <div class="energy-label">Energy</div>
+        <div class="energy-track" onclick="setJEnergy(event)">
+          <div class="energy-fill" id="energyFill" style="width:${(j.energy||5)*10}%"></div>
+        </div>
+        <div class="energy-val" id="energyVal">${j.energy||5}/10</div>
+      </div>
+    </div>
+
+    <div class="journal-section">
+      <div class="journal-section-title">🏷 Tags</div>
+      <div class="tag-row">${tagBtns}</div>
+    </div>
+
+    <div class="journal-section">
+      <div class="journal-section-title">⚡ Quick Notes</div>
+      ${quickNotesList||'<div style="font-size:13px;color:var(--text3);margin-bottom:10px">No quick notes yet today</div>'}
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <input type="text" id="quickNoteInput" class="form-input" placeholder="Capture a thought…" style="flex:1;padding:8px 12px" onkeydown="if(event.key==='Enter')addQuickNote()">
+        <button class="btn-primary" onclick="addQuickNote()" style="padding:8px 14px;flex-shrink:0">Add</button>
+      </div>
+    </div>
+
+    <div style="margin-top:4px">
+      <div class="journal-section-title" style="margin-bottom:10px">📅 Recent Entries</div>
+      ${recentJournalEntries()}
+    </div>
+  `;
+}
+
+function recentJournalEntries(){
+  if(!state.journal) return '';
+  const entries = Object.entries(state.journal)
+    .filter(([date,j])=>date!==journalDate&&(j.entry||j.tags?.length||j.quickNotes?.length))
+    .sort((a,b)=>b[0].localeCompare(a[0]))
+    .slice(0,5);
+  if(!entries.length) return '<div style="font-size:13px;color:var(--text3)">No previous entries yet</div>';
+  return entries.map(([date,j])=>{
+    const d=fromISO(date);
+    const mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const label=mo[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear();
+    const preview=(j.entry||'').slice(0,80)+(j.entry&&j.entry.length>80?'…':'');
+    const tags=(j.tags||[]).map(t=>`<span class="journal-entry-tag">${t}</span>`).join('');
+    const mood=j.mood?MOODS[j.mood-1]:'';
+    return `<div class="journal-entry-card" onclick="journalGoTo('${date}')">
+      <div class="journal-entry-date">${label} ${mood}</div>
+      ${preview?`<div class="journal-entry-preview">${preview}</div>`:''}
+      ${tags?`<div class="journal-entry-tags">${tags}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function journalNav(dir){
+  const d=fromISO(journalDate);
+  d.setDate(d.getDate()+dir);
+  journalDate=toISO(d);
+  renderJournal();
+}
+function journalGoTo(date){ journalDate=date; renderJournal(); }
+
+function saveJEntry(){
+  const j=getJEntry(journalDate);
+  j.entry=document.getElementById('journalEntry').value;
+  // Also sync to existing notes system
+  state.notes[journalDate]=j.entry;
+  save();
+  const btn=document.querySelector('.notes-save');
+  if(btn){btn.textContent='Saved ✓'; setTimeout(()=>btn.textContent='Save',1500);}
+}
+
+function setJMood(val){
+  const j=getJEntry(journalDate);
+  j.mood=j.mood===val?0:val;
+  save(); renderJournal();
+}
+
+function setJEnergy(e){
+  const track=e.currentTarget;
+  const rect=track.getBoundingClientRect();
+  const pct=(e.clientX-rect.left)/rect.width;
+  const val=Math.max(1,Math.min(10,Math.round(pct*10)));
+  const j=getJEntry(journalDate);
+  j.energy=val;
+  document.getElementById('energyFill').style.width=(val*10)+'%';
+  document.getElementById('energyVal').textContent=val+'/10';
+  save();
+}
+
+function toggleJTag(tag){
+  const j=getJEntry(journalDate);
+  if(!j.tags) j.tags=[];
+  const idx=j.tags.indexOf(tag);
+  if(idx===-1) j.tags.push(tag);
+  else j.tags.splice(idx,1);
+  save(); renderJournal();
+}
+
+function addQuickNote(){
+  const input=document.getElementById('quickNoteInput');
+  const text=input.value.trim(); if(!text)return;
+  const j=getJEntry(journalDate);
+  if(!j.quickNotes) j.quickNotes=[];
+  const now=new Date();
+  const h=now.getHours(), m=String(now.getMinutes()).padStart(2,'0');
+  const ampm=h>=12?'pm':'am';
+  j.quickNotes.push({text,time:`${h%12||12}:${m}${ampm}`});
+  save(); input.value=''; renderJournal();
+}
+
+function deleteQuickNote(idx){
+  const j=getJEntry(journalDate);
+  j.quickNotes.splice(idx,1);
+  save(); renderJournal();
+}
 
 // ─── SETTINGS ────────────────────────────────────────────────────────
 function renderSettings(){
@@ -1553,16 +1771,46 @@ render();
 // Service Worker for offline + PWA
 if ('serviceWorker' in navigator) {
   const swCode = `
-    const CACHE = 'thanku-v1';
+    const CACHE = 'tend-v2';
+    const ASSETS = [
+      '/',
+      '/index.html',
+      '/icon-192.png',
+      '/icon-512.png',
+      'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap'
+    ];
     self.addEventListener('install', e => {
-      self.skipWaiting();
+      e.waitUntil(
+        caches.open(CACHE).then(cache => {
+          return Promise.allSettled(ASSETS.map(url => cache.add(url).catch(()=>{})));
+        }).then(() => self.skipWaiting())
+      );
     });
     self.addEventListener('activate', e => {
-      e.waitUntil(clients.claim());
+      e.waitUntil(
+        caches.keys().then(keys =>
+          Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+        ).then(() => clients.claim())
+      );
     });
     self.addEventListener('fetch', e => {
+      if (e.request.method !== 'GET') return;
       e.respondWith(
-        caches.match(e.request).then(r => r || fetch(e.request).catch(() => new Response('Offline')))
+        caches.match(e.request).then(cached => {
+          if (cached) return cached;
+          return fetch(e.request).then(response => {
+            if (response && response.status === 200) {
+              const clone = response.clone();
+              caches.open(CACHE).then(cache => cache.put(e.request, clone));
+            }
+            return response;
+          }).catch(() => {
+            if (e.request.destination === 'document') {
+              return caches.match('/index.html') || caches.match('/');
+            }
+            return new Response('Offline', {status: 503});
+          });
+        })
       );
     });
   `;
