@@ -872,7 +872,7 @@ function renderDayView(){
     html+=`</div><div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${getRC(q)}"></div></div>`;
   });
 
-  if(!html) html=`<div class="empty-state"><div class="big">📝</div>Nothing scheduled yet<br><br>
+  if(!html) html=`<div class="empty-state"><div class="big">📝</div>Add a practice to get started<br><br>
     <button class="btn-primary" style="max-width:200px;margin:0 auto;display:block" onclick="openAddModal()">Add a Practice</button></div>`;
 
   document.getElementById('dayContent').innerHTML=html;
