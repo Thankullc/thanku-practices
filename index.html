@@ -811,7 +811,9 @@ function load(){
       else if(text && state.journal[date] && !state.journal[date].entry) state.journal[date].entry=text;
     });
   }
-  state.selectedDay=toISO(new Date()); state.weekOffset=0; state.currentPage='practices';
+  state.selectedDay=toISO(new Date()); state.weekOffset=0;
+  if(!localStorage.getItem('hasLaunched')) state.currentPage='practices';
+  localStorage.setItem('hasLaunched','1');
 }
 function save(){ localStorage.setItem('thanku_v2',JSON.stringify(state)); }
 
