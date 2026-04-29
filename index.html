@@ -763,6 +763,7 @@ document.getElementById('pwa-manifest').href = manifestUrl;
 </div>
 
 <script>
+if('scrollRestoration' in history) history.scrollRestoration='manual';
 const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 const QUADRANTS = ['Body','Mind','Stillness','Shadow','Extra'];
 const Q_COLORS = {Body:'#e8523a',Mind:'#2d6fa3','Stillness':'#7b4f9e',Shadow:'#3a6b4a',Extra:'#4a7a9b'};
@@ -841,7 +842,7 @@ function fmtTime(mins,secs){
 }
 
 function render(){
-  window.scrollTo(0,0);
+  setTimeout(()=>window.scrollTo({top:0,behavior:"instant"}),0);
   renderHeader();
   if(state.currentPage==='practices') renderDayView();
   else if(state.currentPage==='week') renderWeekView();
@@ -1142,7 +1143,7 @@ function setView(v){
 function setPage(page){
   state.currentPage=page;
   localStorage.setItem('lastPage',page);
-  window.scrollTo(0,0);
+  setTimeout(()=>window.scrollTo({top:0,behavior:"instant"}),0);
   ['practices','week','history','month','tasks','projects','journal','settings'].forEach(p=>{
     const cap=p.charAt(0).toUpperCase()+p.slice(1);
     const pg=document.getElementById('page'+cap);
