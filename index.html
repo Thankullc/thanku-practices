@@ -594,7 +594,7 @@ document.getElementById('pwa-manifest').href = manifestUrl;
   </div>
 
   <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:10px">The Five Realms</div>
-  <div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:14px">The examples listed are practices that I have done or currently do and how I categorize them. There are many types of practices for each realm not listed here — the examples are to give you an idea. Most practices stretch across multiple realms so please don't get stuck on how you label it. You're practicing — that's what matters.</div>
+  <div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:14px">These are practices I've done or currently do, and how I choose to categorize them. They're meant to spark ideas, not limit your creativity. And most practices touch more than one realm anyway, so no need to overthink the label or category. You're practicing, that's what matters.</div>
 
   <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px">
     <div style="padding:14px 16px;border-bottom:1px solid var(--border)">
@@ -640,7 +640,7 @@ document.getElementById('pwa-manifest').href = manifestUrl;
     </div>
   </div>
 
-  <div style="text-align:center;font-size:11px;color:var(--text3);padding-bottom:8px">© ${new Date().getFullYear()} Thanku, LLC. All rights reserved.</div>
+  <div style="text-align:center;font-size:11px;color:var(--text3);padding-bottom:8px">© <span id="instrYear"></span> Thanku, LLC. All rights reserved.</div>
 
   <button class="onboarding-btn" onclick="closeInstructions()">Done</button>
 </div>
@@ -1270,6 +1270,7 @@ applyZoom();
 // ─── ONBOARDING ───────────────────────────────────────────────────────
 
 function openInstructions(){
+  const el=document.getElementById('instrYear'); if(el) el.textContent=new Date().getFullYear();
   document.getElementById('instructionsModal').classList.add('open');
 }
 function closeInstructions(){
