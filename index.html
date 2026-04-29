@@ -812,8 +812,9 @@ function load(){
     });
   }
   state.selectedDay=toISO(new Date()); state.weekOffset=0;
-  if(!localStorage.getItem('hasLaunched')) state.currentPage='practices';
-  localStorage.setItem('hasLaunched','1');
+  // Restore last page on refresh, default to practices on first launch
+  const lastPage = localStorage.getItem('lastPage');
+  state.currentPage = lastPage || 'practices';
 }
 function save(){ localStorage.setItem('thanku_v2',JSON.stringify(state)); }
 
@@ -1139,6 +1140,7 @@ function setView(v){
 }
 function setPage(page){
   state.currentPage=page;
+  localStorage.setItem('lastPage',page);
   ['practices','week','history','month','tasks','projects','journal','settings'].forEach(p=>{
     const cap=p.charAt(0).toUpperCase()+p.slice(1);
     const pg=document.getElementById('page'+cap);
