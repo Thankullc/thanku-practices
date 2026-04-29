@@ -843,6 +843,14 @@ function fmtTime(mins,secs){
 
 function render(){
   setTimeout(()=>window.scrollTo({top:0,behavior:"instant"}),0);
+  // Sync active page and nav on every render
+  ['practices','week','history','month','tasks','projects','journal','settings'].forEach(p=>{
+    const cap=p.charAt(0).toUpperCase()+p.slice(1);
+    const pg=document.getElementById('page'+cap);
+    const nv=document.getElementById('nav'+cap);
+    if(pg) pg.classList.toggle('active',p===state.currentPage);
+    if(nv) nv.classList.toggle('active',p===state.currentPage);
+  });
   renderHeader();
   if(state.currentPage==='practices') renderDayView();
   else if(state.currentPage==='week') renderWeekView();
