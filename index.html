@@ -599,7 +599,7 @@ document.getElementById('pwa-manifest').href = manifestUrl;
   <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px">
     <div style="padding:14px 16px;border-bottom:1px solid var(--border)">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:22px">🏃</span><span style="font-size:15px;font-weight:700;color:var(--text)">Body</span></div>
-      <div style="font-size:13px;color:var(--text2);line-height:1.6">gym, yoga, hiking, walking, dance, stretching, cold shower, breathwork</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.6">strength training, HIIT, yoga, hiking, walking, dance, stretching, martial arts, cold exposure, breathwork</div>
     </div>
     <div style="padding:14px 16px;border-bottom:1px solid var(--border)">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:22px">📚</span><span style="font-size:15px;font-weight:700;color:var(--text)">Mind</span></div>
@@ -1172,8 +1172,23 @@ load();
 document.documentElement.setAttribute('data-theme',state.theme);
 document.getElementById('themeToggle').addEventListener('click',toggleTheme);
 document.getElementById('addPracticeBtn').addEventListener('click',()=>openAddModal());
-document.getElementById('prevWeek').addEventListener('click',()=>{state.weekOffset--;save();render();});
-document.getElementById('nextWeek').addEventListener('click',()=>{state.weekOffset++;save();render();});
+document.getElementById('prevWeek').addEventListener('click',()=>{
+  state.weekOffset--;
+  const days=getWeekDays(state.weekOffset);
+  // If current selectedDay is not in this week, jump to same weekday in new week
+  const currentDay=fromISO(state.selectedDay);
+  const targetDay=days[currentDay.getDay()];
+  state.selectedDay=toISO(targetDay);
+  save();render();
+});
+document.getElementById('nextWeek').addEventListener('click',()=>{
+  state.weekOffset++;
+  const days=getWeekDays(state.weekOffset);
+  const currentDay=fromISO(state.selectedDay);
+  const targetDay=days[currentDay.getDay()];
+  state.selectedDay=toISO(targetDay);
+  save();render();
+});
 document.getElementById('todayBtn').addEventListener('click',()=>{state.weekOffset=0;state.selectedDay=todayISO();save();render();});
 
 
