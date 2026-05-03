@@ -310,10 +310,7 @@
   </div>
 </div>
 
-<div class="view-toggle" id="viewToggle">
-  <button class="view-btn active" data-view="day" onclick="setView('day')">Day View</button>
-  <button class="view-btn" data-view="week" onclick="setView('week')">Week View</button>
-</div>
+
 
 <div class="content">
   <div class="page active" id="pagePractices">
@@ -538,11 +535,13 @@
 
     <div class="form-group">
       <label class="form-label">Time Period</label>
-      <div style="display:flex;gap:8px">
+      <div style="display:flex;gap:8px;margin-bottom:10px">
         <button class="pri-opt selected-high" id="printPeriodDay" onclick="setPrintPeriod('day')" style="flex:1;font-size:13px">Daily</button>
         <button class="pri-opt" id="printPeriodWeek" onclick="setPrintPeriod('week')" style="flex:1;font-size:13px">Weekly</button>
         <button class="pri-opt" id="printPeriodMonth" onclick="setPrintPeriod('month')" style="flex:1;font-size:13px">Monthly</button>
       </div>
+      <label class="form-label">Date</label>
+      <input type="date" class="form-input" id="printDate" style="width:100%">
     </div>
 
     <div class="form-group">
@@ -936,10 +935,8 @@ function renderHeader(){
   const days=getWeekDays(state.weekOffset);
   document.getElementById('weekLabel').textContent=fmtWeek(days);
   document.getElementById('themeToggle').textContent=state.theme==='dark'?'☀️':'🌙';
-  const pracOnly = state.currentPage==='practices';
   const noNav = !['practices','week'].includes(state.currentPage);
-  document.getElementById('weekNav').style.display=pracOnly?'flex':'none';
-  document.getElementById('viewToggle').style.display=pracOnly?'flex':'none';
+  document.getElementById('weekNav').style.display=state.currentPage==='practices'||state.currentPage==='week'?'flex':'none';
   document.getElementById('addPracticeBtn').style.display=state.currentPage==='practices'?'flex':'none';
 }
 
@@ -1389,6 +1386,9 @@ let printPeriod = 'day';
 
 function openPrintModal(){
   setPrintPeriod('day');
+  // Default to currently selected day in app
+  const defaultDate = state.selectedDay || todayISO();
+  document.getElementById('printDate').value = defaultDate;
   document.getElementById('printModal').classList.add('open');
 }
 function closePrintModal(){ document.getElementById('printModal').classList.remove('open'); }
@@ -1408,21 +1408,23 @@ function generateReport(){
   const incTasks = document.getElementById('printIncTasks').checked;
   const incProjects = document.getElementById('printIncProjects').checked;
 
-  const today = new Date(); today.setHours(0,0,0,0);
+  const selectedDateStr = document.getElementById('printDate').value || todayISO();
+  const selectedDate = fromISO(selectedDateStr);
+  selectedDate.setHours(0,0,0,0);
   let startDate, endDate, periodLabel;
 
   if(printPeriod==='day'){
-    startDate = toISO(today);
+    startDate = selectedDateStr;
     endDate = startDate;
-    periodLabel = today.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+    periodLabel = selectedDate.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
   } else if(printPeriod==='week'){
-    const sun = new Date(today); sun.setDate(today.getDate()-today.getDay());
+    const sun = new Date(selectedDate); sun.setDate(selectedDate.getDate()-selectedDate.getDay());
     const sat = new Date(sun); sat.setDate(sun.getDate()+6);
     startDate = toISO(sun); endDate = toISO(sat);
     periodLabel = sun.toLocaleDateString('en-US',{month:'long',day:'numeric'})+' – '+sat.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
   } else {
-    const first = new Date(today.getFullYear(),today.getMonth(),1);
-    const last = new Date(today.getFullYear(),today.getMonth()+1,0);
+    const first = new Date(selectedDate.getFullYear(),selectedDate.getMonth(),1);
+    const last = new Date(selectedDate.getFullYear(),selectedDate.getMonth()+1,0);
     startDate = toISO(first); endDate = toISO(last);
     periodLabel = first.toLocaleDateString('en-US',{month:'long',year:'numeric'});
   }
@@ -1532,22 +1534,26 @@ function generateReport(){
 <title>Tend: Practice Tracker — ${periodLabel}</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: Georgia, serif; color: #1a1a1a; max-width: 720px; margin: 40px auto; padding: 0 24px; line-height: 1.6; }
-  h1 { font-size: 28px; font-weight: normal; margin-bottom: 4px; }
-  .period { font-size: 14px; color: #666; margin-bottom: 32px; }
-  .logo { font-size: 13px; color: #2d5a3d; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-  h2 { font-size: 18px; font-weight: normal; color: #2d5a3d; border-bottom: 1px solid #ddd; padding-bottom: 6px; margin: 28px 0 16px; }
-  section { margin-bottom: 32px; }
-  .realm-header { font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: #666; margin: 14px 0 6px; }
-  .practice-row { display: flex; align-items: baseline; gap: 8px; padding: 5px 0; border-bottom: 0.5px solid #f0f0f0; flex-wrap: wrap; }
+  * { box-sizing: border-box; }
+  body { font-family: Georgia, serif; color: #1a1a1a; max-width: 720px; margin: 0 auto; padding: 0; line-height: 1.6; }
+  .report-header { background: #2d5a3d; color: white; padding: 32px 32px 24px; margin-bottom: 0; }
+  .logo { font-size: 11px; color: rgba(255,255,255,0.7); font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; }
+  h1 { font-size: 30px; font-weight: normal; margin-bottom: 4px; color: white; }
+  .period { font-size: 14px; color: rgba(255,255,255,0.75); margin-bottom: 0; }
+  .report-body { padding: 28px 32px; }
+  h2 { font-size: 16px; font-weight: bold; color: #2d5a3d; text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid #2d5a3d; padding-bottom: 6px; margin: 28px 0 14px; }
+  section { margin-bottom: 24px; }
+  .realm-header { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: #555; margin: 16px 0 6px; background: #f5f5f0; padding: 6px 10px; border-radius: 6px; }
+  .practice-row { display: flex; align-items: baseline; gap: 8px; padding: 7px 0; border-bottom: 0.5px solid #eee; flex-wrap: wrap; }
   .practice-row.done .pname { font-weight: 600; }
-  .practice-row.planned { opacity: 0.6; }
+  .practice-row.done .check { color: #2d5a3d; font-weight: bold; }
+  .practice-row.planned { opacity: 0.5; }
   .check { width: 16px; font-size: 12px; color: #2d5a3d; flex-shrink: 0; }
   .pname { font-size: 14px; flex: 1; }
   .pdate { font-size: 12px; color: #888; }
   .pmins { font-size: 12px; color: #2d5a3d; font-weight: 600; }
   .pnote { width: 100%; font-size: 12px; color: #555; font-style: italic; padding-left: 24px; margin-top: 2px; }
-  .journal-entry { margin-bottom: 20px; padding: 14px; background: #fafafa; border-left: 3px solid #2d5a3d; border-radius: 0 8px 8px 0; }
+  .journal-entry { margin-bottom: 16px; padding: 16px; background: #f9f7f4; border-left: 4px solid #2d5a3d; border-radius: 0 8px 8px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
   .journal-date { font-size: 13px; font-weight: bold; color: #2d5a3d; margin-bottom: 6px; }
   .mood-line { font-size: 12px; color: #666; margin-bottom: 8px; }
   .journal-text { font-size: 14px; line-height: 1.7; margin-bottom: 8px; }
@@ -1577,12 +1583,16 @@ function generateReport(){
 </style>
 </head>
 <body>
-  <div class="logo">Tend: Practice Tracker · Thanku, LLC.</div>
-  <h1>${printPeriod==='day'?'Daily Report':printPeriod==='week'?'Weekly Report':'Monthly Report'}</h1>
-  <div class="period">${periodLabel}</div>
-  <button class="print-btn no-print" onclick="window.print()">🖨️ Print / Save as PDF</button>
+  <div class="report-header">
+    <div class="logo">Tend: Practice Tracker · Thanku, LLC.</div>
+    <h1>${printPeriod==='day'?'Daily Report':printPeriod==='week'?'Weekly Report':'Monthly Report'}</h1>
+    <div class="period">${periodLabel}</div>
+  </div>
+  <div class="report-body">
+  <button class="print-btn no-print" onclick="window.print()" style="margin-top:20px">🖨️ Print / Save as PDF</button>
   ${body}
-  <div style="margin-top:40px;padding-top:16px;border-top:1px solid #ddd;font-size:11px;color:#999;text-align:center">
+  </div>
+  <div style="background:#f5f5f0;padding:20px 32px;font-size:11px;color:#888;text-align:center;border-top:1px solid #e0e0e0;margin-top:20px">
     Generated by Tend: Practice Tracker · Thanku, LLC. · ${new Date().toLocaleDateString()}
   </div>
 </body>
