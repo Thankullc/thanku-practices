@@ -993,7 +993,7 @@ function renderDayView(){
 
   const emptyMsg = state.hideWelcomeMessage
     ? '<div class="empty-state"><div class="big">📝</div>Tap + to log a practice<br><br>'
-    : '<div class="empty-state"><div class="big">🌳</div><div style="font-size:18px;font-weight:600;color:var(--text);margin-bottom:8px">Welcome to Tend.</div><div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:12px">Track the daily practices that shape your life. Start with one practice — choose a realm, add a practice, and log your time for today. Even 5 minutes can have impact.</div><br>';
+    : '<div class="empty-state"><div class="big">🌳</div><div style="font-size:18px;font-weight:600;color:var(--text);margin-bottom:8px">Welcome to Tend.</div><div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:12px">Track the daily practices that shape your life. Choose a realm, add a practice, log your time, and add a note. Even 5 minutes can have impact.</div><br>';
   if(!html) html=emptyMsg+'<button class="btn-primary" style="max-width:200px;margin:0 auto;display:block" onclick="openAddModal()">Add a Practice</button></div>';
 
   document.getElementById('dayContent').innerHTML=html;
