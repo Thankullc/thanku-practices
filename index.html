@@ -573,17 +573,17 @@
   </div>
 </div>
 
-<!-- BACKUP REMINDER BANNER -->
-<div class="backup-banner" id="backupBanner">
-  <div style="display:flex;align-items:flex-start;gap:10px">
-    <div style="font-size:16px;flex-shrink:0;margin-top:1px">💾</div>
-    <div style="flex:1">
-      <div class="backup-banner-title">Time to back up your data</div>
-      <div class="backup-banner-sub" id="backupBannerSub">It's been 7 days since your last export</div>
-      <div class="backup-banner-btns">
-        <button class="backup-export-btn" onclick="backupExportNow()">Export Now</button>
-        <button class="backup-later-btn" onclick="dismissBackupBanner()">Later</button>
-      </div>
+<!-- BACKUP REMINDER MODAL -->
+<div class="modal-overlay" id="backupBanner" style="display:none">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div style="text-align:center;font-size:32px;margin-bottom:8px">💾</div>
+    <div class="modal-title">Time to back up your data</div>
+    <div style="font-size:14px;color:var(--text2);text-align:center;margin-bottom:20px" id="backupBannerSub">It's been 7 days since your last export</div>
+    <div style="font-size:13px;color:var(--text3);text-align:center;margin-bottom:24px">Export your data to keep it safe. Store the file somewhere like email or cloud storage.</div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="dismissBackupBanner()">Later</button>
+      <button class="btn-primary" onclick="backupExportNow()">Export Now</button>
     </div>
   </div>
 </div>
@@ -1615,11 +1615,11 @@ function checkBackupReminder(){
     const daysSince = last ? Math.floor((now-last)/86400000) : null;
     const sub = last ? `${daysSince} days since your last export` : 'Back up your data to keep it safe';
     document.getElementById('backupBannerSub').textContent = sub;
-    document.getElementById('backupBanner').classList.add('open');
+    document.getElementById('backupBanner').style.display='flex';
   }
 }
 function dismissBackupBanner(){
-  document.getElementById('backupBanner').classList.remove('open');
+  document.getElementById('backupBanner').style.display='none';
   localStorage.setItem('backupDismissed', Date.now().toString());
 }
 function backupExportNow(){
@@ -1658,7 +1658,7 @@ function toggleBackupReminder(checked){
   state.backupReminderOff = !checked;
   save();
   if(checked) checkBackupReminder();
-  else document.getElementById('backupBanner').classList.remove('open');
+  else document.getElementById('backupBanner').style.display='none';
   renderSettings();
 }
 
