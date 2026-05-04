@@ -573,6 +573,20 @@
   </div>
 </div>
 
+<!-- WEEKLY SUMMARY MODAL -->
+<div class="modal-overlay" id="weeklySummaryModal" style="display:none">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);text-align:center;margin-bottom:4px">Last Week</div>
+    <div style="font-size:13px;color:var(--text3);text-align:center;margin-bottom:16px" id="weeklySummaryPeriod"></div>
+    <div id="weeklySummaryRealms"></div>
+    <div class="weekly-summary-message" id="weeklySummaryMessage"></div>
+    <div class="modal-actions" style="margin-top:20px">
+      <button class="btn-primary" onclick="closeWeeklySummary()" style="width:100%">Close</button>
+    </div>
+  </div>
+</div>
+
 <!-- BACKUP REMINDER MODAL -->
 <div class="modal-overlay" id="backupBanner" style="display:none">
   <div class="modal">
@@ -1134,6 +1148,7 @@ function removePracticeFromDay(id,date){
   save(); render();
   if(!localStorage.getItem('onboardingSeen')) openOnboarding();
   setTimeout(checkBackupReminder, 2000);
+  setTimeout(checkWeeklySummary, 1500);
 }
 
 function selectDay(iso){ state.selectedDay=iso; save(); render(); }
@@ -1601,6 +1616,83 @@ function generateReport(){
   const win = window.open('','_blank');
   win.document.write(html);
   win.document.close();
+}
+
+
+// ─── WEEKLY SUMMARY ───────────────────────────────────────────────────
+function checkWeeklySummary(){
+  const today = new Date(); today.setHours(0,0,0,0);
+  const dayOfWeek = today.getDay(); // 0=Sun, 1=Mon
+  if(dayOfWeek !== 0 && dayOfWeek !== 1) return; // Only show Sun or Mon
+
+  const lastShown = localStorage.getItem('weeklySummaryShown');
+  const weekKey = toISO(today).substring(0,7) + '-W' + Math.floor(today.getDate()/7);
+  if(lastShown === weekKey) return; // Already shown this week
+
+  // Calculate last week's dates
+  const lastSun = new Date(today);
+  lastSun.setDate(today.getDate() - today.getDay() - 7);
+  const lastSat = new Date(lastSun);
+  lastSat.setDate(lastSun.getDate() + 6);
+
+  const dates = [];
+  let d = new Date(lastSun);
+  while(d <= lastSat){ dates.push(toISO(d)); d.setDate(d.getDate()+1); }
+
+  // Count days with at least one completed practice
+  const daysWithPractices = new Set();
+  (state.practices||[]).forEach(p=>{
+    p.completedDates.forEach(date=>{
+      if(dates.includes(date)) daysWithPractices.add(date);
+    });
+  });
+
+  if(daysWithPractices.size === 0) return; // No practices — silent
+
+  // Build realm summary
+  const realmData = {};
+  QUADRANTS.forEach(q=>{ realmData[q]={count:0,mins:0}; });
+  (state.practices||[]).forEach(p=>{
+    p.completedDates.forEach(date=>{
+      if(dates.includes(date)){
+        realmData[p.quadrant].count++;
+        realmData[p.quadrant].mins += (p.minutes&&p.minutes[date])||0;
+      }
+    });
+  });
+
+  // Message based on days
+  const days = daysWithPractices.size;
+  let message = '';
+  if(days >= 5) message = 'Fantastic week.';
+  else if(days >= 3) message = 'Solid week. Good stuff.';
+  else message = 'You got some in — that counts! Keep tending.';
+
+  // Period label
+  const mo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const periodLabel = mo[lastSun.getMonth()]+' '+lastSun.getDate()+' – '+mo[lastSat.getMonth()]+' '+lastSat.getDate();
+
+  // Build realms HTML
+  const realmsHtml = QUADRANTS.filter(q=>realmData[q].count>0).map(q=>`
+    <div class="weekly-summary-realm">
+      <span style="font-size:20px">${getRI(q)}</span>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:600;color:var(--text)">${getRN(q)}</div>
+        <div style="font-size:12px;color:var(--text3)">${realmData[q].count} practice${realmData[q].count>1?'s':''} ${realmData[q].mins?'· '+fmtMins(realmData[q].mins):''}</div>
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('weeklySummaryPeriod').textContent = periodLabel;
+  document.getElementById('weeklySummaryRealms').innerHTML = realmsHtml;
+  document.getElementById('weeklySummaryMessage').textContent = message;
+  document.getElementById('weeklySummaryModal').style.display = 'flex';
+
+  localStorage.setItem('weeklySummaryShown', weekKey);
+}
+
+function closeWeeklySummary(){
+  document.getElementById('weeklySummaryModal').style.display = 'none';
 }
 
 // ─── BACKUP REMINDER ──────────────────────────────────────────────────
