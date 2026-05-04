@@ -338,6 +338,7 @@
       <div class="summary-title">This Week's Progress</div>
       <div class="summary-stats" id="weekStats"></div>
     </div>
+    <div style="display:flex;gap:6px;padding:0 16px 12px" id="weekDayStrip"></div>
     <div id="weekViewContent"></div>
   </div>
 
@@ -1037,6 +1038,25 @@ function renderDayView(){
 
 function renderWeekView(){
   const days=getWeekDays(state.weekOffset), isos=days.map(toISO);
+  const today=todayISO(), sel=state.selectedDay||today;
+
+  // Day strip — same style as practices page
+  const weekDayStrip = document.getElementById('weekDayStrip');
+  if(weekDayStrip){
+    weekDayStrip.innerHTML = days.map(d=>{
+      const iso=toISO(d);
+      const hasPractice = state.practices.some(p=>p.scheduledDates.includes(iso)||p.completedDates.includes(iso));
+      const allDone = hasPractice && state.practices.filter(p=>p.scheduledDates.includes(iso)).every(p=>p.completedDates.includes(iso));
+      return `<div onclick="selectWeekDay('${iso}')" style="flex:1;text-align:center;padding:8px 2px;border-radius:10px;cursor:pointer;background:${iso===sel?'var(--accent)':'var(--card)'};border:1px solid ${iso===sel?'var(--accent)':'var(--border)'}">
+        <div style="font-size:9px;font-weight:700;color:${iso===sel?'white':'var(--text3)'};text-transform:uppercase">${DAYS[d.getDay()][0]}</div>
+        <div style="font-size:14px;font-weight:600;color:${iso===sel?'white':'var(--text)'}">${d.getDate()}</div>
+        <div style="height:6px;display:flex;align-items:center;justify-content:center;margin-top:2px">
+          ${hasPractice?`<div style="width:5px;height:5px;border-radius:50%;background:${iso===sel?'white':allDone?'var(--accent)':'var(--text3)'}"></div>`:''}
+        </div>
+      </div>`;
+    }).join('');
+  }
+
   document.getElementById('weekStats').innerHTML=QUADRANTS.map(q=>{
     const qp=state.practices.filter(p=>p.quadrant===q);
     const total=qp.reduce((a,p)=>a+isos.filter(d=>p.scheduledDates.includes(d)).length,0);
@@ -2131,6 +2151,12 @@ function renderTasks(){
     }
   }
   document.getElementById('tasksContent').innerHTML=html;
+}
+
+function selectWeekDay(iso){
+  state.selectedDay = iso;
+  save();
+  renderWeekView();
 }
 
 function scheduleFromWeek(iso){
