@@ -958,7 +958,7 @@ function renderHeader(){
   document.getElementById('themeToggle').textContent=state.theme==='dark'?'☀️':'🌙';
   const noNav = !['practices','week'].includes(state.currentPage);
   document.getElementById('weekNav').style.display=state.currentPage==='practices'||state.currentPage==='week'?'flex':'none';
-  document.getElementById('addPracticeBtn').style.display=state.currentPage==='practices'?'flex':'none';
+  document.getElementById('addPracticeBtn').style.display=(state.currentPage==='practices'||state.currentPage==='week')?'flex':'none';
 }
 
 function renderDayView(){
