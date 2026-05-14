@@ -335,11 +335,7 @@
 
   <div class="page" id="pageWeek">
     <div style="display:flex;gap:6px;padding:0 16px 12px" id="weekDayStrip"></div>
-    <div class="summary-card">
-      <div class="summary-title">This Week's Progress</div>
-      <div class="summary-stats" id="weekStats"></div>
-    </div>
-    <div id="weekViewContent"></div>
+    <div id="weekViewContent" style="padding:0 16px 16px"></div>
   </div>
 
   <div class="page" id="pageHistory">
@@ -576,6 +572,32 @@
     <div class="modal-actions">
       <button class="btn-secondary" onclick="closePrintModal()">Cancel</button>
       <button class="btn-primary" onclick="generateReport()">Generate Report</button>
+    </div>
+  </div>
+</div>
+
+<!-- MOOD LOG MODAL -->
+<div class="modal-overlay" id="moodLogModal" style="display:none">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Log Mood</div>
+    <div style="font-size:13px;color:var(--text3);text-align:center;margin-bottom:16px" id="moodModalTime"></div>
+
+    <div class="form-group">
+      <label class="form-label">How are you feeling?</label>
+      <div style="display:flex;justify-content:space-between;gap:8px" id="moodModalBtns"></div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Energy <span id="moodModalEnergyVal" style="color:var(--accent)">5/10</span></label>
+      <div class="energy-track" onclick="setModalEnergy(event)" style="cursor:pointer">
+        <div class="energy-fill" id="moodModalEnergyFill" style="width:50%"></div>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeMoodModal()">Cancel</button>
+      <button class="btn-primary" id="moodModalSave" onclick="saveMoodEntry()">Save</button>
     </div>
   </div>
 </div>
@@ -865,7 +887,7 @@ let state = {
   realmNames:{Body:'Body',Mind:'Mind','Stillness':'Stillness',Shadow:'Shadow',Extra:'Extra'},
   realmColors:{Body:'#e8523a',Mind:'#2d6fa3','Stillness':'#7b4f9e',Shadow:'#3a6b4a',Extra:'#4a7a9b'},
   realmIcons:{Body:'🏃',Mind:'📚','Stillness':'🌳',Shadow:'👤',Extra:'💡'},
-  journal:{} // {date: {entry:'', mood:0, energy:0, tags:[], quickNotes:[]}}
+  journal:{} // {date: {entry:'', mood:0, energy:5, tags:[], quickNotes:[], moodLog:[]}}
 };
 
 // Timer
@@ -898,7 +920,7 @@ function load(){
   // Migrate existing notes into journal
   if(state.notes && state.journal!==undefined){
     Object.entries(state.notes).forEach(([date,text])=>{
-      if(text && !state.journal[date]) state.journal[date]={entry:text,mood:0,energy:5,tags:[],quickNotes:[]};
+      if(text && !state.journal[date]) state.journal[date]={entry:text,mood:0,energy:5,tags:[],quickNotes:[],moodLog:[]};
       else if(text && state.journal[date] && !state.journal[date].entry) state.journal[date].entry=text;
     });
   }
@@ -1040,7 +1062,7 @@ function renderWeekView(){
   const days=getWeekDays(state.weekOffset), isos=days.map(toISO);
   const today=todayISO(), sel=state.selectedDay||today;
 
-  // Day strip — same style as practices page
+  // Day strip
   const weekDayStrip = document.getElementById('weekDayStrip');
   if(weekDayStrip){
     weekDayStrip.innerHTML = days.map(d=>{
@@ -1057,73 +1079,62 @@ function renderWeekView(){
     }).join('');
   }
 
-  document.getElementById('weekStats').innerHTML=QUADRANTS.map(q=>{
-    const qp=state.practices.filter(p=>p.quadrant===q);
-    const total=qp.reduce((a,p)=>a+isos.filter(d=>p.scheduledDates.includes(d)).length,0);
-    const done=qp.reduce((a,p)=>a+isos.filter(d=>p.completedDates.includes(d)).length,0);
-    const mins=qp.reduce((a,p)=>a+isos.reduce((b,d)=>b+((p.minutes&&p.minutes[d])||0),0),0);
-    return `<div class="stat-box" style="border-color:${getRC(q)}30">
-      <div class="stat-num" style="color:${getRC(q)}">${done}<span style="font-size:12px;color:var(--text3)">/${total}</span></div>
-      <div class="stat-label">${getRI(q)} ${q}</div>
-      ${mins?`<div class="stat-mins">${fmtMins(mins)}</div>`:''}
-    </div>`;
-  }).join('');
+  // Build daily stream
+  let html = '';
+  const mo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-  let html='';
-  QUADRANTS.forEach(q=>{
-    const rel=state.practices.filter(p=>p.quadrant===q&&isos.some(d=>p.scheduledDates.includes(d)));
-    if(!rel.length)return;
-    html+=`<div class="section-header"><div class="section-title"><span class="quadrant-dot" style="background:${getRC(q)}"></span>${getRI(q)} ${q}</div></div>`;
-    
-    // Group by practice name
-    const grouped={};
-    rel.forEach(p=>{
-      const key=p.name;
-      if(!grouped[key]) grouped[key]={name:p.name,trackTime:p.trackTime,practices:[],quadrant:q};
-      grouped[key].practices.push(p);
-    });
-    
-    Object.values(grouped).forEach(g=>{
-      // Merge all days across practices with same name
-      const mergedSched=new Set(), mergedDone=new Set(), mergedMins={};
-      const allIds=[];
-      g.practices.forEach(p=>{
-        allIds.push(p.id);
-        isos.forEach(iso=>{
-          if(p.scheduledDates.includes(iso)) mergedSched.add(iso);
-          if(p.completedDates.includes(iso)) mergedDone.add(iso);
-          if(p.minutes&&p.minutes[iso]) mergedMins[iso]=(mergedMins[iso]||0)+p.minutes[iso];
-        });
-      });
-      
-      html+=`<div class="summary-card" style="margin-bottom:8px;padding:12px 14px">
-        <div style="font-weight:600;font-size:14px;margin-bottom:8px">${g.name}${g.trackTime?' ⏱':''}</div>
-        <div style="display:flex;gap:5px">`;
-      days.forEach(d=>{
-        const iso=toISO(d), sched=mergedSched.has(iso), done=mergedDone.has(iso);
-        const m=mergedMins[iso]||0;
-        const cellDate = iso;
-        const isSchedFuture = sched && !done && cellDate > todayISO();
-        const isCellMissed = sched && !done && cellDate < todayISO();
-        let bg='var(--bg2)', col='var(--text3)', cursor='default', border='none';
-        if(done){bg=getRC(q);col='white';}
-        else if(isSchedFuture){bg='transparent';col=getRC(q);border='1.5px dashed '+getRC(q);}
-        else if(isCellMissed){bg='var(--bg2)';col='var(--text3)';}
-        else if(sched){bg=getRC(q)+'30';col=getRC(q);}
-        if(sched) cursor='pointer';
-        // Use first matching practice for tap
-        const pid=g.practices.find(p=>p.scheduledDates.includes(iso))?.id||g.practices[0].id;
-        const trackTime=g.practices.find(p=>p.scheduledDates.includes(iso))?.trackTime||false;
-        const clickHandler=sched?`onclick="weekTap('${pid}','${iso}',${done},${trackTime})"`:(cellDate>=todayISO()?`onclick="scheduleFromWeek('${iso}')"`:'');
-        const holdHandler=sched?`oncontextmenu="event.preventDefault();weekJump('${iso}')" ontouchstart="weekHoldStart('${iso}')" ontouchend="weekHoldEnd()"`:'';;
-        html+=`<div style="flex:1;text-align:center;padding:6px 2px;border-radius:8px;background:${bg};color:${col};font-size:10px;font-weight:600;cursor:${cursor};border:${border};opacity:${isCellMissed?0.45:1}" ${clickHandler} ${holdHandler}>${DAYS[d.getDay()][0]}${m?'<br><span style="font-size:9px">'+fmtMins(m)+'</span>':isSchedFuture?'<br><span style="font-size:8px">plan</span>':''}</div>`;
-      });
-      html+=`</div></div>`;
-    });
+  days.forEach((d, dayIdx) => {
+    const iso = toISO(d);
+    const isToday = iso === today;
+    const isSel = iso === sel;
+    const isFuture = iso > today;
+    const isPast = iso < today;
+
+    // Get all practices for this day
+    const dayPractices = state.practices.filter(p =>
+      p.scheduledDates.includes(iso) || p.completedDates.includes(iso)
+    );
+
+    // Build pills
+    const pills = dayPractices.map(p => {
+      const done = p.completedDates.includes(iso);
+      const isFuturePrac = !done && isFuture;
+      const isMissed = !done && isPast;
+      const mins = (p.minutes && p.minutes[iso]) || 0;
+      const rc = getRC(p.quadrant);
+      const ri = getRI(p.quadrant);
+      const timeStr = mins ? ' · ' + fmtMins(mins) : (isFuturePrac ? ' · planned' : '');
+
+      let bg, col, border='none', opacity=1;
+      if(done){ bg=rc+'25'; col=rc; }
+      else if(isFuturePrac){ bg='transparent'; col=rc; border='1.5px dashed '+rc; }
+      else if(isMissed){ bg='var(--bg2)'; col='var(--text3)'; opacity=0.5; }
+      else { bg=rc+'15'; col=rc; }
+
+      return `<span onclick="weekJump('${iso}')" style="display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:500;padding:4px 10px;border-radius:20px;background:${bg};color:${col};border:${border};opacity:${opacity};cursor:pointer;margin:2px">${ri} ${p.name}${timeStr}</span>`;
+    }).join('');
+
+    // Day row
+    const isLast = dayIdx === days.length - 1;
+    html += `<div style="display:flex;gap:10px;align-items:flex-start;padding:10px 0;${dayIdx>0?'border-top:0.5px solid var(--border)':''}">
+      <div style="width:38px;flex-shrink:0;text-align:center;padding-top:2px">
+        <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:${isToday?'var(--accent)':'var(--text3)'}">${DAYS[d.getDay()].substring(0,3)}</div>
+        <div style="font-size:16px;font-weight:600;color:${isToday?'var(--accent)':isFuture?'var(--text2)':'var(--text)'};line-height:1.2">${d.getDate()}</div>
+        <div style="font-size:9px;color:var(--text3)">${mo[d.getMonth()]}</div>
+      </div>
+      <div style="flex:1;padding-top:4px">
+        ${dayPractices.length ? `<div style="display:flex;flex-wrap:wrap;gap:2px">${pills}</div>` : `<div style="font-size:12px;color:var(--text3);padding:4px 0;font-style:italic">${isFuture?'Nothing planned':'Nothing logged'}</div>`}
+      </div>
+      <div style="flex-shrink:0;padding-top:4px">
+        <span onclick="scheduleFromWeek('${iso}')" style="font-size:11px;color:var(--accent);cursor:pointer;padding:2px 6px;border:1px dashed var(--accent);border-radius:6px">+</span>
+      </div>
+    </div>`;
   });
-  if(!html) html=`<div class="empty-state"><div class="big">📊</div>No practices this week yet</div>`;
-  document.getElementById('weekViewContent').innerHTML=html;
+
+  if(!html) html = `<div class="empty-state"><div class="big">📊</div>No practices this week yet</div>`;
+  document.getElementById('weekViewContent').innerHTML = html;
 }
+
 
 function renderHistory(){
   const allD=[...new Set(state.practices.flatMap(p=>[...p.scheduledDates,...p.completedDates]))].sort().reverse();
@@ -1498,31 +1509,31 @@ function generateReport(){
   const MOOD_EMOJI=['😔','😐','🙂','😊','🤩'];
   let body = '';
 
-  // PRACTICES
+  // PRACTICES — daily stream format
   if(incPractices){
     body += '<section><h2>Practices</h2>';
     let hasPractices = false;
-    QUADRANTS.forEach(q=>{
-      const qp = state.practices.filter(p=>p.quadrant===q&&dates.some(d=>p.scheduledDates.includes(d)||p.completedDates.includes(d)));
-      if(!qp.length) return;
+    const mo2=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    dates.forEach(date=>{
+      const d = fromISO(date);
+      const dayPractices = state.practices.filter(p=>p.scheduledDates.includes(date)||p.completedDates.includes(date));
+      if(!dayPractices.length) return;
       hasPractices = true;
-      body += `<div class="realm-header">${Q_ICONS[q]} ${q}</div>`;
-      qp.forEach(p=>{
-        const pracDates = dates.filter(d=>p.scheduledDates.includes(d)||p.completedDates.includes(d));
-        pracDates.forEach(date=>{
-          const done = p.completedDates.includes(date);
-          const mins = p.minutes&&p.minutes[date]?p.minutes[date]:0;
-          const note = p.dailyNotes&&p.dailyNotes[date]?p.dailyNotes[date]:'';
-          const d = fromISO(date);
-          body += `<div class="practice-row ${done?'done':'planned'}">
-            <span class="check">${done?'✓':'○'}</span>
-            <span class="pname">${p.name}</span>
-            <span class="pdate">${d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}</span>
-            ${mins?`<span class="pmins">${fmtMins(mins)}</span>`:''}
-            ${note?`<div class="pnote">${note}</div>`:''}
-          </div>`;
-        });
+      const dayLabel = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()] + ' ' + mo2[d.getMonth()] + ' ' + d.getDate();
+      body += `<div style="margin-bottom:14px"><div style="font-size:13px;font-weight:bold;color:#2d5a3d;margin-bottom:6px;border-bottom:1px solid #eee;padding-bottom:4px">${dayLabel}</div>`;
+      dayPractices.forEach(p=>{
+        const done = p.completedDates.includes(date);
+        const mins = p.minutes&&p.minutes[date]?p.minutes[date]:0;
+        const note = p.dailyNotes&&p.dailyNotes[date]?p.dailyNotes[date]:'';
+        const isFuture = date > new Date().toISOString().substring(0,10);
+        body += `<div class="practice-row ${done?'done':isFuture?'':'planned'}">
+          <span class="check">${done?'✓':isFuture?'□':'○'}</span>
+          <span class="pname">${Q_ICONS[p.quadrant]||''} ${p.name}</span>
+          ${mins?`<span class="pmins">${fmtMins(mins)}</span>`:''}
+          ${note?`<div class="pnote">${note}</div>`:''}
+        </div>`;
       });
+      body += '</div>';
     });
     if(!hasPractices) body += '<p class="empty">No practices recorded for this period.</p>';
     body += '</section>';
@@ -1539,7 +1550,7 @@ function generateReport(){
       const d = fromISO(date);
       body += `<div class="journal-entry">
         <div class="journal-date">${d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}</div>
-        ${j.mood?`<div class="mood-line">${MOOD_EMOJI[j.mood-1]} ${MOODS_LABELS[j.mood-1]} · Energy ${j.energy||5}/10</div>`:''}
+        ${j.moodLog&&j.moodLog.length?`<div class="mood-line">${j.moodLog.map(m=>MOOD_EMOJI[m.mood-1]+' '+MOODS_LABELS[m.mood-1]+' · Energy '+m.energy+'/10 · '+m.time).join(' → ')}</div>`:(j.mood?`<div class="mood-line">${MOOD_EMOJI[j.mood-1]} ${MOODS_LABELS[j.mood-1]} · Energy ${j.energy||5}/10</div>`:'')}
         ${j.entry?`<div class="journal-text">${j.entry}</div>`:''}
         ${j.tags&&j.tags.length?`<div class="tags">${j.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>`:''}
         ${state.notes&&state.notes[date]?`<div class="day-note"><em>Note: ${state.notes[date]}</em></div>`:''}
@@ -1664,6 +1675,69 @@ function generateReport(){
   win.document.close();
 }
 
+
+
+// ─── MOOD LOG MODAL ───────────────────────────────────────────────────
+let moodModalDate = null;
+let moodModalSelected = 0;
+let moodModalEnergy = 5;
+
+function openMoodModal(date){
+  moodModalDate = date;
+  moodModalSelected = 0;
+  moodModalEnergy = 5;
+
+  const now = new Date();
+  const h = now.getHours(), m = String(now.getMinutes()).padStart(2,'0');
+  const ampm = h>=12?'pm':'am';
+  document.getElementById('moodModalTime').textContent = (h%12||12)+':'+m+ampm;
+
+  // Mood buttons
+  document.getElementById('moodModalBtns').innerHTML = MOODS.map((emoji,i)=>`
+    <button onclick="selectModalMood(${i+1})" id="moodModalBtn_${i+1}" style="flex:1;font-size:22px;padding:8px 4px;border:1.5px solid var(--border);border-radius:10px;background:var(--card);cursor:pointer">${emoji}</button>
+  `).join('');
+
+  document.getElementById('moodModalEnergyFill').style.width = '50%';
+  document.getElementById('moodModalEnergyVal').textContent = '5/10';
+  document.getElementById('moodLogModal').style.display = 'flex';
+}
+
+function selectModalMood(val){
+  moodModalSelected = val;
+  MOODS.forEach((_,i)=>{
+    const btn = document.getElementById('moodModalBtn_'+(i+1));
+    if(btn) btn.style.borderColor = (i+1===val)?'var(--accent)':'var(--border)';
+    if(btn) btn.style.background = (i+1===val)?'var(--accent)20':'var(--card)';
+  });
+}
+
+function setModalEnergy(e){
+  const track = e.currentTarget;
+  const rect = track.getBoundingClientRect();
+  const pct = (e.clientX-rect.left)/rect.width;
+  moodModalEnergy = Math.max(1,Math.min(10,Math.round(pct*10)));
+  document.getElementById('moodModalEnergyFill').style.width = (moodModalEnergy*10)+'%';
+  document.getElementById('moodModalEnergyVal').textContent = moodModalEnergy+'/10';
+}
+
+function closeMoodModal(){
+  document.getElementById('moodLogModal').style.display = 'none';
+  moodModalDate = null;
+}
+
+function saveMoodEntry(){
+  if(!moodModalSelected){ alert('Please select a mood first.'); return; }
+  const j = getJEntry(moodModalDate);
+  if(!j.moodLog) j.moodLog = [];
+  const now = new Date();
+  const h = now.getHours(), m = String(now.getMinutes()).padStart(2,'0');
+  const ampm = h>=12?'pm':'am';
+  const timeStr = (h%12||12)+':'+m+ampm;
+  j.moodLog.push({ mood: moodModalSelected, energy: moodModalEnergy, time: timeStr });
+  save();
+  closeMoodModal();
+  renderJournal();
+}
 
 // ─── WEEKLY SUMMARY ───────────────────────────────────────────────────
 function checkWeeklySummary(){
@@ -1823,7 +1897,7 @@ let journalDate = null; // ISO date being viewed
 
 function getJEntry(date){
   if(!state.journal) state.journal={};
-  if(!state.journal[date]) state.journal[date]={entry:'',mood:0,energy:5,tags:[],quickNotes:[]};
+  if(!state.journal[date]) state.journal[date]={entry:'',mood:0,energy:5,tags:[],quickNotes:[],moodLog:[]};
   return state.journal[date];
 }
 
@@ -1887,15 +1961,36 @@ function renderJournal(){
     </div>
 
     <div class="journal-section">
-      <div class="journal-section-title">🌡 Mood & Energy</div>
-      <div class="mood-row">${moodBtns}</div>
-      <div class="energy-row">
-        <div class="energy-label">Energy</div>
-        <div class="energy-track" onclick="setJEnergy(event)">
-          <div class="energy-fill" id="energyFill" style="width:${(j.energy||5)*10}%"></div>
-        </div>
-        <div class="energy-val" id="energyVal">${j.energy||5}/10</div>
+      <div class="journal-section-title" style="display:flex;align-items:center;justify-content:space-between">
+        <span>🌡 Mood & Energy</span>
+        <button onclick="openMoodModal('${journalDate}')" style="font-size:11px;background:var(--accent);color:white;border:none;border-radius:8px;padding:4px 12px;cursor:pointer">+ Log mood</button>
       </div>
+      ${(j.moodLog&&j.moodLog.length)?`
+        <div>
+          ${j.moodLog.map((m,i)=>`
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border)">
+              <span style="font-size:22px">${MOODS[m.mood-1]||'😐'}</span>
+              <div style="flex:1">
+                <div style="font-size:13px;color:var(--text);font-weight:500">${MOOD_LABELS[m.mood-1]||'Okay'}</div>
+                <div style="font-size:11px;color:var(--text3)">Energy ${m.energy}/10 · ${m.time}</div>
+              </div>
+              <span onclick="deleteMoodEntry('${journalDate}',${i})" style="font-size:16px;color:var(--text3);cursor:pointer;padding:4px">✕</span>
+            </div>
+          `).join('')}
+          ${j.moodLog.length>1?`
+            <div style="margin-top:10px;padding:8px;background:var(--bg2);border-radius:10px">
+              <div style="font-size:11px;color:var(--text3);margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px">Mood arc</div>
+              <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap">
+                ${j.moodLog.map((m,i)=>`
+                  <span style="font-size:13px">${MOODS[m.mood-1]}</span>
+                  <span style="font-size:10px;color:var(--text3)">${m.time}</span>
+                  ${i<j.moodLog.length-1?'<span style="color:var(--text3);font-size:10px">→</span>':''}
+                `).join('')}
+              </div>
+            </div>
+          `:''}
+        </div>
+      `:`<div style="font-size:13px;color:var(--text3);padding:8px 0;font-style:italic">No mood entries yet — tap + Log mood to add one</div>`}
     </div>
 
     <div class="journal-section">
@@ -1951,6 +2046,26 @@ function saveJEntry(){
   save();
   const btn=document.querySelector('.notes-save');
   if(btn){btn.textContent='Saved ✓'; setTimeout(()=>btn.textContent='Save',1500);}
+}
+
+
+function addMoodEntry(date){
+  const j = getJEntry(date);
+  if(!j.moodLog) j.moodLog = [];
+  if(!j.mood) { alert('Select a mood first, then tap Log mood.'); return; }
+  const now = new Date();
+  const h = now.getHours(), m = String(now.getMinutes()).padStart(2,'0');
+  const ampm = h >= 12 ? 'pm' : 'am';
+  const timeStr = (h%12||12) + ':' + m + ampm;
+  j.moodLog.push({ mood: j.mood, energy: j.energy||5, time: timeStr });
+  save(); renderJournal();
+}
+
+function deleteMoodEntry(date, idx){
+  const j = getJEntry(date);
+  if(!j.moodLog) return;
+  j.moodLog.splice(idx, 1);
+  save(); renderJournal();
 }
 
 function setJMood(val){
