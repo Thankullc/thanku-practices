@@ -1074,7 +1074,7 @@ function renderWeekView(){
         <div style="font-size:9px;font-weight:700;color:${iso===sel?'white':'var(--text3)'};text-transform:uppercase">${DAYS[d.getDay()][0]}</div>
         <div style="font-size:14px;font-weight:600;color:${iso===sel?'white':'var(--text)'}">${d.getDate()}</div>
         <div style="height:8px;display:flex;align-items:center;justify-content:center;gap:1px;margin-top:2px">
-          ${(()=>{ const dayQ=[...new Set(state.practices.filter(px=>px.scheduledDates.includes(iso)||px.completedDates.includes(iso)).map(px=>px.quadrant))]; return dayQ.slice(0,5).map(q=>`<div style="width:4px;height:4px;border-radius:50%;background:${iso===sel?'white':getRC(q)}"></div>`).join(''); })()}
+          ${(()=>{ const dayQ=[...new Set(state.practices.filter(px=>px.scheduledDates.includes(iso)||px.completedDates.includes(iso)).map(px=>px.quadrant))]; return dayQ.slice(0,5).map(q=>`<div style="width:4px;height:4px;border-radius:50%;background:${getRC(q)}"></div>`).join(''); })()}
         </div>
       </div>`;
     }).join('');
@@ -1438,7 +1438,7 @@ function renderMonth(){
       <button class="month-nav-btn" onclick="changeMonth(1)">›</button>
     </div>
     <div class="cal-grid">${cells}</div>
-    <div class="month-legend">${QUADRANTS.map(q=>`<div class="legend-item"><div class="legend-dot" style="background:${getRC(q)}"></div>${getRI(q)} ${q}</div>`).join('')}</div>
+    <div class="month-legend">${QUADRANTS.map(q=>`<div class="legend-item"><div class="legend-dot" style="background:${getRC(q)}"></div>${getRI(q)} ${getRN(q)}</div>`).join('')}<div class="legend-item" style="opacity:0.4;font-style:italic">🌳 Faded = scheduled</div></div>
     ${realmCards?`<div style="margin-top:14px"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:8px">⏱ Minutes This Month</div><div style="display:flex;flex-wrap:wrap;gap:8px">${realmCards}</div></div>`:''}
 `;
 }
