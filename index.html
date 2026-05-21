@@ -1073,8 +1073,8 @@ function renderWeekView(){
       return `<div onclick="selectWeekDay('${iso}')" style="flex:1;text-align:center;padding:8px 2px;border-radius:10px;cursor:pointer;background:${iso===sel?'var(--accent)':'var(--card)'};border:1px solid ${iso===sel?'var(--accent)':'var(--border)'}">
         <div style="font-size:9px;font-weight:700;color:${iso===sel?'white':'var(--text3)'};text-transform:uppercase">${DAYS[d.getDay()][0]}</div>
         <div style="font-size:14px;font-weight:600;color:${iso===sel?'white':'var(--text)'}">${d.getDate()}</div>
-        <div style="height:6px;display:flex;align-items:center;justify-content:center;margin-top:2px">
-          ${hasPractice?`<div style="width:5px;height:5px;border-radius:50%;background:${iso===sel?'white':allDone?'var(--accent)':'var(--text3)'}"></div>`:''}
+        <div style="height:8px;display:flex;align-items:center;justify-content:center;gap:1px;margin-top:2px">
+          ${(()=>{ const dayQ=[...new Set(state.practices.filter(px=>px.scheduledDates.includes(iso)||px.completedDates.includes(iso)).map(px=>px.quadrant))]; return dayQ.slice(0,5).map(q=>`<div style="width:4px;height:4px;border-radius:50%;background:${iso===sel?'white':getRC(q)}"></div>`).join(''); })()}
         </div>
       </div>`;
     }).join('');
@@ -1392,10 +1392,18 @@ function renderMonth(){
     const isToday=iso===today, isSel=iso===state.selectedDay;
     const cm=compMap[iso];
     let dots='';
-    if(cm){ 
+    if(cm){
+      const isFutureDay = iso > today;
+      // Completed practices — full opacity emoji
       cm.donePractices.forEach(q=>{ dots+=`<span style="font-size:9px;line-height:1;opacity:1">${getRI(q)}</span>`; });
-      const undoneCt=cm.sched-cm.done;
-      if(undoneCt>0) dots+=`<span style="font-size:8px;opacity:0.3">·</span>`.repeat(Math.min(undoneCt,3));
+      // Scheduled but not done — faded emoji for future, tiny dot for past
+      if(isFutureDay){
+        state.practices.filter(p=>p.scheduledDates.includes(iso)&&!p.completedDates.includes(iso))
+          .forEach(p=>{ dots+=`<span style="font-size:9px;line-height:1;opacity:0.3">${getRI(p.quadrant)}</span>`; });
+      } else {
+        const undoneCt=cm.sched-cm.done;
+        if(undoneCt>0) dots+=`<span style="font-size:8px;opacity:0.25">·</span>`.repeat(Math.min(undoneCt,3));
+      }
     }
     cells+=`<div class="cal-cell ${isToday?'today':''} ${isSel?'selected':''}" onclick="calSelectDay('${iso}')">
       <div class="cal-date">${d}</div>
