@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.thankullc.tendpracticetracker",
+      "sha256_cert_fingerprints": [
+        "F2:C9:64:DC:EF:E2:27:61:01:19:DA:3E:75:68:B4:8F:51:A0:76:2C:01:70:54:F3:8E:C3:D5:55:38:29:AF:37"
+      ]
+    }
+  }
+]
