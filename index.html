@@ -1537,7 +1537,7 @@ function generateReport(){
         const isFuture = date > new Date().toISOString().substring(0,10);
         body += `<div class="practice-row ${done?'done':isFuture?'':'planned'}">
           <span class="check">${done?'✓':isFuture?'□':'○'}</span>
-          <span class="pname">${Q_ICONS[p.quadrant]||''} ${p.name}</span>
+          <span class="pname">${getRI(p.quadrant)} ${p.name}</span>
           ${mins?`<span class="pmins">${fmtMins(mins)}</span>`:''}
           ${note?`<div class="pnote">${note}</div>`:''}
         </div>`;
