@@ -1562,7 +1562,6 @@ function generateReport(){
         ${j.moodLog&&j.moodLog.length?`<div class="mood-line">${j.moodLog.map(m=>MOOD_EMOJI[m.mood-1]+' '+MOODS_LABELS[m.mood-1]+' · Energy '+m.energy+'/10 · '+m.time).join(' → ')}</div>`:(j.mood?`<div class="mood-line">${MOOD_EMOJI[j.mood-1]} ${MOODS_LABELS[j.mood-1]} · Energy ${j.energy||5}/10</div>`:'')}
         ${j.entry?`<div class="journal-text">${j.entry}</div>`:''}
         ${j.tags&&j.tags.length?`<div class="tags">${j.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>`:''}
-        ${state.notes&&state.notes[date]?`<div class="day-note"><em>Note: ${state.notes[date]}</em></div>`:''}
       </div>`;
     });
     if(!hasJournal) body += '<p class="empty">No journal entries for this period.</p>';
