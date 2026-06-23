@@ -918,13 +918,6 @@ function load(){
     if(state.realmNames['Stillness']==='State Training') state.realmNames['Stillness']='Stillness';
     if(state.realmNames['Stillness']==='Spirit') state.realmNames['Stillness']='Stillness';
   }
-  // Migrate existing notes into journal
-  if(state.notes && state.journal!==undefined){
-    Object.entries(state.notes).forEach(([date,text])=>{
-      if(text && !state.journal[date]) state.journal[date]={entry:text,mood:0,energy:5,tags:[],quickNotes:[],moodLog:[]};
-      else if(text && state.journal[date] && !state.journal[date].entry) state.journal[date].entry=text;
-    });
-  }
   state.selectedDay=toISO(new Date()); state.weekOffset=0;
   // Restore last page on refresh, default to practices on first launch
   const lastPage = localStorage.getItem('lastPage');
