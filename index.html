@@ -913,12 +913,16 @@ function load(){
   }
   // Force correct Shadow icon
   if(state.realmIcons&&state.realmIcons['Shadow']==='🪞') state.realmIcons['Shadow']='👤';
-  // Force correct display names for renamed realms
-  if(state.realmNames){
-    if(state.realmNames['Stillness']==='State Training') state.realmNames['Stillness']='Stillness';
-    if(state.realmNames['Stillness']==='Spirit') state.realmNames['Stillness']='Stillness';
-    if(state.realmNames['Mind']==='Mind') state.realmNames['Mind']='Learning';
-  }
+  // Force correct display names for renamed realms + fill in any missing defaults
+  const defaultRealmNames = {Body:'Body',Mind:'Learning','Stillness':'Stillness',Shadow:'Shadow',Extra:'Extra'};
+  if(!state.realmNames) state.realmNames = {};
+  Object.keys(defaultRealmNames).forEach(k => {
+    if(!state.realmNames[k]) state.realmNames[k] = defaultRealmNames[k];
+  });
+  if(state.realmNames['Stillness']==='State Training') state.realmNames['Stillness']='Stillness';
+  if(state.realmNames['Stillness']==='Spirit') state.realmNames['Stillness']='Stillness';
+  if(state.realmNames['Mind']==='Mind') state.realmNames['Mind']='Learning';
+  save();
   state.selectedDay=toISO(new Date()); state.weekOffset=0;
   // Restore last page on refresh, default to practices on first launch
   const lastPage = localStorage.getItem('lastPage');
