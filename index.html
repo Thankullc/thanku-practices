@@ -1004,7 +1004,7 @@ function renderDayView(){
     const doneCount=ps.filter(p=>p.completedDates.includes(sel)).length;
     const pct=Math.round(doneCount/ps.length*100);
     html+=`<div class="section-header">
-      <div class="section-title"><span class="quadrant-dot" style="background:${getRC(q)}"></span>${getRI(q)} ${q}</div>
+      <div class="section-title"><span class="quadrant-dot" style="background:${getRC(q)}"></span>${getRI(q)} ${getRN(q)}</div>
       <button class="add-btn" onclick="openAddModal('${q}')">+ Add</button>
     </div><div class="practices-list">`;
     ps.forEach(p=>{
@@ -1024,7 +1024,7 @@ function renderDayView(){
           <div class="practice-info">
             <div class="practice-name">${p.name}${stateBadge}</div>
             ${displayNote?`<div style="font-size:12px;color:var(--text3);margin-top:2px;font-style:italic">${displayNote}</div>`:''}
-            <div class="practice-meta">${q}${timeMeta?' &nbsp;'+timeMeta:''}</div>
+            <div class="practice-meta">${getRN(q)}${timeMeta?' &nbsp;'+timeMeta:''}</div>
           </div>
           <div style="display:flex;align-items:center;gap:6px">
             <span class="time-icon-btn" onclick="event.stopPropagation();openEditModal('${p.id}')" title="Edit practice">✏️</span>
@@ -1157,7 +1157,7 @@ function renderHistory(){
     QUADRANTS.forEach(q=>{
       const qp=state.practices.filter(p=>p.quadrant===q&&wD.some(d=>p.scheduledDates.includes(d)));
       if(!qp.length)return;
-      html+=`<div class="history-quad"><div class="history-quad-title">${getRI(q)} ${q}</div>`;
+      html+=`<div class="history-quad"><div class="history-quad-title">${getRI(q)} ${getRN(q)}</div>`;
       qp.forEach(p=>{ wD.forEach(d=>{ if(!p.scheduledDates.includes(d))return; const done=p.completedDates.includes(d),dt=fromISO(d),m=(p.minutes&&p.minutes[d])||0;
         html+=`<div class="history-item ${done?'done-item':'planned-item'}"><span class="hi-name">${p.name} — ${DAYS[dt.getDay()]} ${dt.getDate()}</span>${m?`<span class="hi-mins">${fmtMins(m)}</span>`:''}</div>`;
       }); });
@@ -1424,7 +1424,7 @@ function renderMonth(){
     <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--card);border:1px solid ${getRC(q)}40;border-radius:10px;flex:1;min-width:100px">
       <div style="width:10px;height:10px;border-radius:50%;background:${getRC(q)};flex-shrink:0"></div>
       <div>
-        <div style="font-size:10px;color:var(--text3)">${getRI(q)} ${q}</div>
+        <div style="font-size:10px;color:var(--text3)">${getRI(q)} ${getRN(q)}</div>
         <div style="font-size:15px;font-weight:700;color:${getRC(q)}">${realmMins[q]}m</div>
       </div>
     </div>`).join('');
