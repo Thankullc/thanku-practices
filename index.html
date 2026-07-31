@@ -1267,6 +1267,7 @@ function openAddModal(preQ){
   document.getElementById('trackTimeToggle').checked=false;
   document.querySelectorAll('.q-option').forEach(el=>{
     const q=el.dataset.q,s=q===editQ;
+    el.innerHTML=`${getRI(q)} ${getRN(q)}`;
     el.classList.toggle('selected',s); el.style.background=s?getRC(q):''; el.style.color=s?'white':'';
   });
   // Use the week containing selectedDay, not just current week offset
@@ -2579,6 +2580,7 @@ function openEditModal(id){
   editQcurrent = p.quadrant;
   document.querySelectorAll('.eq-option').forEach(el=>{
     const q=el.dataset.q, sel=q===editQcurrent;
+    el.innerHTML=`${getRI(q)} ${getRN(q)}`;
     el.classList.toggle('selected', sel);
     el.style.background = sel ? getRC(q) : '';
     el.style.color = sel ? 'white' : '';
