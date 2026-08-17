@@ -97,7 +97,7 @@
   .stat-mins { font-size: 10px; color: var(--text3); margin-top: 2px; }
 
   .notes-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; margin-top: 16px; }
-  .notes-area { width: 100%; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 11px 14px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; min-height: 80px; resize: none; outline: none; }
+  .notes-area { width: 100%; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 11px 14px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; min-height: 80px; overflow-y: hidden; outline: none; box-sizing: border-box; line-height: 1.5; }
   .notes-area:focus { border-color: var(--accent); }
   .notes-save { margin-top: 8px; background: var(--accent); color: white; border: none; border-radius: 8px; padding: 8px 16px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; float: right; }
 
@@ -206,7 +206,7 @@
   .journal-date-sub { font-size:12px; color:var(--text3); margin-bottom:16px; }
   .journal-section { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:16px; margin-bottom:14px; }
   .journal-section-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--text3); margin-bottom:10px; }
-  .journal-textarea { width:100%; background:var(--bg2); border:1px solid var(--border); border-radius:10px; padding:12px; font-family:'DM Sans',sans-serif; font-size:14px; color:var(--text); resize:vertical; min-height:100px; outline:none; line-height:1.6; }
+  .journal-textarea { width:100%; background:var(--bg2); border:1px solid var(--border); border-radius:10px; padding:12px; font-family:'DM Sans',sans-serif; font-size:14px; color:var(--text); overflow-y:hidden; min-height:100px; outline:none; line-height:1.6; box-sizing: border-box; }
   .journal-textarea:focus { border-color:var(--accent); }
   .mood-row { display:flex; gap:8px; justify-content:space-between; }
   .mood-btn { flex:1; padding:8px 4px; border:2px solid var(--border); border-radius:10px; text-align:center; cursor:pointer; font-size:18px; transition:all 0.15s; background:none; }
@@ -326,7 +326,7 @@
       <div style="font-family:'DM Serif Display',serif;font-size:15px;display:flex;align-items:center;gap:8px;margin-bottom:10px">
         <span>💬</span> What do I want to say today?
       </div>
-      <textarea class="notes-area" id="notesArea" placeholder="Whatever's on your mind…"></textarea>
+      <textarea class="notes-area" id="notesArea" placeholder="Whatever's on your mind…" oninput="autosize(this)"></textarea>
       <button class="notes-save" onclick="saveNote()">Save</button>
       <div style="clear:both"></div>
     </div>
@@ -945,6 +945,7 @@ function todayISO(){ return toISO(new Date()); }
 function getRN(q){ return (state.realmNames&&state.realmNames[q])||q; }
 function getRC(q){ return (state.realmColors&&state.realmColors[q])||getRC(q)||'#888'; }
 function getRI(q){ return (state.realmIcons&&state.realmIcons[q])||getRI(q)||'⚪'; }
+function autosize(el){ if(!el) return; el.style.height='auto'; el.style.height=el.scrollHeight+'px'; }
 function fmtMins(m){ if(!m)return ''; if(m<60)return m+'m'; return Math.floor(m/60)+'h '+(m%60?m%60+'m':''); }
 function fmtTime(mins,secs){ 
   if(!mins&&!secs)return '';
@@ -1055,6 +1056,7 @@ function renderDayView(){
   });
 
   document.getElementById('notesArea').value=state.notes[sel]||'';
+  autosize(document.getElementById('notesArea'));
 }
 
 function renderWeekView(){
@@ -1963,7 +1965,7 @@ function renderJournal(){
 
     <div class="journal-section">
       <div class="journal-section-title">📝 Reflection</div>
-      <textarea class="journal-textarea" id="journalEntry" placeholder="What's on your mind today? What did you notice? What are you grateful for?">${j.entry||''}</textarea>
+      <textarea class="journal-textarea" id="journalEntry" placeholder="What's on your mind today? What did you notice? What are you grateful for?" oninput="autosize(this)">${j.entry||''}</textarea>
       <button class="notes-save" onclick="saveJEntry()" style="margin-top:8px">Save</button>
     </div>
 
@@ -2018,6 +2020,7 @@ function renderJournal(){
     </div>
 
   `;
+  autosize(document.getElementById('journalEntry'));
 }
 
 function recentJournalEntries(){
